@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Session - CtrlZone Gaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Background Slideshow -->
+    <div class="bg-slideshow">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="../index.html">CtrlZone</a></h1>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="tournaments.html">Tournaments</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <section class="booking-page" data-aos="fade-up" data-aos-duration="1000">
+            <h1>Book Your Gaming Session</h1>
+            <div class="booking-container" data-aos="fade-up" data-aos-delay="300">
+                <div class="booking-info">
+                    <h2>Gaming Packages</h2>
+                    <div class="package-grid">
+                        <div class="package-card" data-aos="flip-left" data-aos-delay="100">
+                            <h3>Sports Games</h3>
+                            <p class="price">KSH 40 per game</p>
+                            <ul>
+                                <li>FC 25</li>
+                                <li>Tournament Events</li>
+                                <li>Multiplayer Available</li>
+                            </ul>
+                        </div>
+                        <div class="package-card" data-aos="flip-left" data-aos-delay="100">
+                            <h3>Fighting Games</h3>
+                            <p class="price">KSH 20 per fight</p>
+                            <ul>
+                                <li>Mortal Kombat</li>
+                                <li>Tekken</li>
+                                <li>Versus Battles</li>
+                            </ul>
+                        </div>
+                        <div class="package-card featured">
+                            <h3>Mission Games</h3>
+                            <p class="price">KSH 50 per 30 mins</p>
+                            <ul>
+                                <li>GTA 5</li>
+                                <li>The Last of Us</li>
+                                <li>Days Gone</li>
+                                <li>Uncharted 4</li>
+                                <li>Call of Duty Series</li>
+                                <li>Resident Evil 4</li>
+                                <li>Far Cry</li>
+                                <li>Red Dead Redemption</li>
+                                <li>Watch Dogs</li>
+                                <li>Shadow of Tomb Raider</li>
+                                <li>Ghost Recon</li>
+                                <li>Battlefield</li>
+                                <li>Spider-Man: Miles Morales</li>
+                                <li>God of War</li>
+                                <li>Mad Max</li>
+                                <li>Until Dawn</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="bookingForm" class="booking-form">
+                    <h2>Book Your Session</h2>
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="tel" name="phone" placeholder="Phone Number" required>
+                    <input type="email" name="email" placeholder="Email Address">
+                    <input type="datetime-local" name="time" required>
+                    <select name="game_type" required id="gameType">
+                        <option value="">Select Game Type</option>
+                        <option value="sports">Sports Games (FC 25)</option>
+                        <option value="fighting">Fighting Games (Mortal Kombat/Tekken)</option>
+                        <option value="mission">Mission Games</option>
+                    </select>
+
+                    <div id="durationSelect" style="display: none;">
+                        <select name="duration" required>
+                            <option value="">Select Duration</option>
+                            <option value="30">30 Minutes</option>
+                            <option value="60">1 Hour</option>
+                            <option value="90">1.5 Hours</option>
+                            <option value="120">2 Hours</option>
+                        </select>
+                    </div>
+
+                    <div id="matchSelect" style="display: none;">
+                        <select name="matches" required>
+                            <option value="">Select Number of Fights</option>
+                            <option value="1">1 Fight</option>
+                            <option value="3">3 Fights</option>
+                            <option value="5">5 Fights</option>
+                        </select>
+                    </div>
+
+                    <div id="gamesSelect" style="display: none;">
+                        <select name="games" required>
+                            <option value="">Select Number of Games</option>
+                            <option value="1">1 Game</option>
+                            <option value="3">3 Games</option>
+                            <option value="5">5 Games</option>
+                        </select>
+                    </div>
+                    <select name="package" required>
+                        <option value="">Select Package</option>
+                        <option value="standard">Standard - Ksh 300/hr</option>
+                        <option value="premium">Premium - Ksh 500/hr</option>
+                    </select>
+                    <select name="specific_game" required id="specificGame">
+                        <option value="">Select Game</option>
+                        <!-- Options will be populated by JavaScript based on game type -->
+                    </select>
+                    <textarea name="notes" placeholder="Special Requests (Optional)"></textarea>
+                    <button type="submit">Book Now</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer data-aos="fade-up" data-aos-duration="1000">
+        <div class="footer-content">
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="games.html">Games</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="tournaments.html">Tournaments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                <h3>Connect With Us</h3>
+                <div class="social-links" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CtrlZone. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- AOS Library -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            offset: 200,
+            delay: 100,
+            duration: 800,
+            easing: 'ease',
+            once: false,
+            mirror: true,
+            anchorPlacement: 'top-bottom'
+        });
+    </script>
+    <script src="../js/script.js"></script>
+</body>
+</html>

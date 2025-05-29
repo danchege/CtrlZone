@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments - CtrlZone Gaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Background Slideshow -->
+    <div class="bg-slideshow">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="../index.html">CtrlZone</a></h1>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="tournaments.html">Tournaments</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <section class="tournaments-page" data-aos="fade-up" data-aos-duration="1000">
+            <div class="tournament-registration">
+                <h2>FC 25 Tournament Registration</h2>
+                <div class="slots-counter" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Available Slots: <span id="availableSlots">16</span>/16</h3>
+                </div>
+
+                <form id="tournamentForm" class="registration-form" data-aos="fade-up" data-aos-delay="300">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                        <small>Format: 0712345678</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team">Preferred Team</label>
+                        <select id="team" name="team" required>
+                            <option value="">Select a team</option>
+                            <optgroup label="⭐⭐⭐⭐⭐ Teams (Europe)">
+                                <option value="Real Madrid">Real Madrid</option>
+                                <option value="Manchester City">Manchester City</option>
+                                <option value="Bayern Munich">Bayern Munich</option>
+                                <option value="FC Barcelona">FC Barcelona</option>
+                                <option value="Arsenal">Arsenal</option>
+                                <option value="Liverpool">Liverpool</option>
+                                <option value="Bayer Leverkusen">Bayer Leverkusen</option>
+                                <option value="Inter Milan">Inter Milan (Lombardia FC)</option>
+                            </optgroup>
+                            <optgroup label="⭐⭐⭐⭐½ Teams (Europe)">
+                                <option value="PSG">Paris Saint-Germain (PSG)</option>
+                                <option value="Manchester United">Manchester United</option>
+                                <option value="Chelsea">Chelsea</option>
+                                <option value="Tottenham Hotspur">Tottenham Hotspur</option>
+                                <option value="Newcastle United">Newcastle United</option>
+                                <option value="Atletico Madrid">Atlético Madrid</option>
+                                <option value="Borussia Dortmund">Borussia Dortmund</option>
+                                <option value="RB Leipzig">RB Leipzig</option>
+                                <option value="Juventus">Juventus</option>
+                                <option value="AC Milan">AC Milan</option>
+                                <option value="Napoli">Napoli</option>
+                                <option value="Sevilla">Sevilla</option>
+                            </optgroup>
+                            <optgroup label="⭐⭐⭐⭐ Teams (Europe)">
+                                <option value="Ajax">Ajax (Netherlands)</option>
+                                <option value="Sporting CP">Sporting CP (Portugal)</option>
+                                <option value="FC Porto">FC Porto (Portugal)</option>
+                                <option value="Valencia">Valencia (Spain)</option>
+                                <option value="Brighton">Brighton & Hove Albion (England)</option>
+                                <option value="Leicester City">Leicester City (England)</option>
+                                <option value="VfB Stuttgart">VfB Stuttgart (Germany)</option>
+                            </optgroup>
+                            <optgroup label="⭐⭐⭐⭐ Teams (Outside Europe)">
+                                <option value="Al Nassr">Al Nassr (Saudi Arabia)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <input type="hidden" id="slotNumber" name="slotNumber">
+                    
+                    <button type="submit" class="neon-button">Register Now</button>
+                </form>
+
+                <div class="tournament-info" data-aos="fade-up" data-aos-delay="400">
+                    <div class="disclaimer">
+                        <p>⚠️ All matches are knockout only. No home & away rules apply.</p>
+                    </div>
+
+                    <div class="tournament-structure">
+                        <h3>Tournament Structure</h3>
+                        <div class="structure-diagram">
+                            <div class="round">
+                                <h4>Round of 16</h4>
+                                <div class="matches">8 Matches</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="round">
+                                <h4>Quarter Finals</h4>
+                                <div class="matches">4 Matches</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="round">
+                                <h4>Semi Finals</h4>
+                                <div class="matches">2 Matches</div>
+                            </div>
+                            <div class="arrow">→</div>
+                            <div class="round">
+                                <h4>Final</h4>
+                                <div class="matches">1 Match</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1>Gaming Tournaments</h1>
+            <div class="tournament-info">
+                <div class="info-card">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Tournament Information</h3>
+                    <p>We exclusively host FC 25 tournaments. Tournament charges and prize pools will be communicated for each event.</p>
+                </div>
+            </div>
+
+            <div class="tournament-grid">
+                <div class="tournament-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="tournament-img">
+                        <img src="../images/tournament-placeholder.jpg" alt="FC 25 Tournament">
+                    </div>
+                    <h3>FC 25 Championship</h3>
+                    <p>Weekend Warriors League</p>
+                    <div class="tournament-details">
+                        <p><i class="fas fa-calendar"></i> Every Saturday</p>
+                        <p><i class="fas fa-gamepad"></i> Game: FC 25</p>
+                        <p><i class="fas fa-info-circle"></i> Prize pool and entry fee will be announced</p>
+                    </div>
+                    <button class="register-btn" data-tournament="fc25">Register Interest</button>
+                </div>
+            </div>
+
+            <!-- Tournament Registration Modal -->
+            <div id="tournamentModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Tournament Registration</h3>
+                    <form id="tournamentForm" class="tournament-form">
+                        <input type="text" name="name" placeholder="Full Name" required>
+                        <input type="tel" name="contact" placeholder="Phone Number" required>
+                        <input type="hidden" name="game" value="fc25">
+                        <p class="form-note">* Tournament is exclusively for FC 25</p>
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer data-aos="fade-up" data-aos-duration="1000">
+        <div class="footer-content">
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="games.html">Games</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="tournaments.html">Tournaments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                <h3>Connect With Us</h3>
+                <div class="social-links" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CtrlZone. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- AOS Library -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            offset: 200,
+            delay: 100,
+            duration: 800,
+            easing: 'ease',
+            once: false,
+            mirror: true,
+            anchorPlacement: 'top-bottom'
+        });
+    </script>
+    <script src="../js/script.js"></script>
+</body>
+</html>

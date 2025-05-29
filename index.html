@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CtrlZone - Premium Gaming Center</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Audiowide&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- AOS Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Background Slideshow -->
+    <div class="bg-slideshow">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>CtrlZone</h1>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="pages/games.html">Games</a></li>
+                <li><a href="pages/services.html">Services</a></li>
+                <li><a href="pages/tournaments.html">Tournaments</a></li>
+                <li><a href="pages/booking.html">Book Now</a></li>
+                <li><a href="pages/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero" data-aos="fade-down" data-aos-duration="1200">
+        <div class="hero-content" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
+            <h1 class="glowing-text">Command Your Game</h1>
+            <p>Kenya's Premier PlayStation Gaming Center</p>
+            <a href="pages/booking.html" class="cta-button">Book Now</a>
+        </div>
+    </section>
+
+    <!-- Games Library -->
+    <section id="games" class="games" data-aos="fade-up" data-aos-duration="1000">
+        <h2>Our Game Library</h2>
+        <div class="game-grid">
+            <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="game-img">
+                    <img src="images/games/fc 25.jpg" alt="FC 25" class="game-cover">
+                </div>
+                <div class="game-info">
+                    <h3>FC 25</h3>
+                    <p>KSH 40 per game</p>
+                    <span class="tournament-badge">Tournament Available</span>
+                </div>
+            </div>
+            <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="game-img">
+                    <img src="images/games/modern warfare.jpg" alt="Call of Duty: Modern Warfare" class="game-cover">
+                </div>
+                <div class="game-info">
+                    <h3>Call of Duty: Modern Warfare</h3>
+                    <p>KSH 50 per 30 mins</p>
+                </div>
+            </div>
+            <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="game-img">
+                    <img src="images/games/spiderman.jpg" alt="Spider-Man: Miles Morales" class="game-cover">
+                </div>
+                <div class="game-info">
+                    <h3>Spider-Man: Miles Morales</h3>
+                    <p>KSH 50 per 30 mins</p>
+                </div>
+            </div>
+            <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="game-img">
+                    <img src="images/games/god of war.jpg" alt="God of War" class="game-cover">
+                </div>
+                <div class="game-info">
+                    <h3>God of War</h3>
+                    <p>KSH 50 per 30 mins</p>
+                </div>
+            </div>
+        </div>
+        <div class="view-more-container">
+            <a href="pages/games.html" class="view-more-btn">View More Games</a>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="services" data-aos="fade-up" data-aos-duration="1000">
+        <h2>Our Services</h2>
+        <div class="service-grid">
+            <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                <i class="fas fa-tools"></i>
+                <h3>Console Jailbreak</h3>
+                <p>Professional PlayStation jailbreaking service</p>
+            </div>
+            <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                <i class="fas fa-download"></i>
+                <h3>Game Installation</h3>
+                <p>Latest games installation and updates</p>
+            </div>
+            <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                <i class="fas fa-trophy"></i>
+                <h3>Tournaments</h3>
+                <p>Regular gaming tournaments with prizes</p>
+            </div>
+            <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                <i class="fas fa-clock"></i>
+                <h3>Gaming Sessions</h3>
+                <p>Hourly and package gaming sessions</p>
+            </div>
+        </div>
+        <div class="view-more-container">
+            <a href="pages/services.html" class="view-more-btn">View More Services</a>
+        </div>
+    </section>
+
+    <!-- Tournaments -->
+    <section id="tournaments" class="tournaments" data-aos="fade-up" data-aos-duration="1000">
+        <h2>Upcoming Tournaments</h2>
+        <div class="tournament-grid">
+            <div class="tournament-card" data-aos="zoom-in-up" data-aos-delay="100">
+                <div class="tournament-info">
+                    <i class="fas fa-trophy"></i>
+                    <h3>FC 25 Championship</h3>
+                    <p>Weekend Warriors League</p>
+                    <div class="tournament-details">
+                        <p><i class="fas fa-calendar"></i> Every Saturday</p>
+                        <p><i class="fas fa-info-circle"></i> Prize pool will be announced</p>
+                    </div>
+                    <a href="pages/tournaments.html" class="register-btn">Register Interest</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tournament Registration Form -->
+        <div id="tournamentModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Tournament Registration</h3>
+                <form id="tournamentForm" class="tournament-form">
+                    <input type="text" name="name" placeholder="Full Name" required>
+                    <input type="tel" name="contact" placeholder="Phone Number" required>
+                    <input type="hidden" name="game" value="fc25">
+                    <p class="form-note">* Tournament is exclusively for FC 25</p>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="booking" data-aos="fade-up" data-aos-duration="1000">
+        <h2>Book Your Gaming Session</h2>
+        <div class="booking-cta">
+            <a href="pages/booking.html" class="neon-button">
+                <i class="fas fa-gamepad"></i> Book Now
+            </a>
+            <p class="booking-description">Experience gaming like never before! Book your session now and enjoy our premium gaming setup.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact" data-aos="fade-up" data-aos-duration="1000">
+        <h2>Find Us</h2>
+        <div class="contact-grid">
+            <div class="map-container" data-aos="fade-right" data-aos-delay="200">
+                <!-- Replace src with actual Google Maps embed code -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255282.35853743783!2d36.70730744863281!3d-1.3028617999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sus!4v1635000000000!5m2!1sen!2sus" 
+                    width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="contact-info" data-aos="fade-left" data-aos-delay="400">
+                <div class="info-item" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-clock"></i>
+                    <p>Open Daily: 9:00 AM - 10:00 PM</p>
+                </div>
+                <div class="info-item" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fab fa-whatsapp"></i>
+                    <p><a href="https://wa.me/254700000000" target="_blank">WhatsApp Us</a></p>
+                </div>
+                <div class="info-item" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Nairobi, Kenya</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer data-aos="fade-up" data-aos-duration="1000">
+        <div class="footer-content">
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#tournaments">Tournaments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                <h3>Connect With Us</h3>
+                <div class="social-links" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CtrlZone. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <!-- AOS Library -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            offset: 200,
+            delay: 100,
+            duration: 800,
+            easing: 'ease',
+            once: false,
+            mirror: true,
+            anchorPlacement: 'top-bottom'
+        });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - CtrlZone Gaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- Background Slideshow -->
+    <div class="bg-slideshow">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="../index.html">CtrlZone</a></h1>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="tournaments.html">Tournaments</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <section class="services-page" data-aos="fade-up" data-aos-duration="1000">
+            <h1>Our Services</h1>
+            <div class="service-grid">
+                <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="service-img">
+                        <img src="../images/service-placeholder.jpg" alt="Console Jailbreak">
+                    </div>
+                    <h3>Console Jailbreak</h3>
+                    <p>Professional PlayStation jailbreaking service with warranty</p>
+                    <ul class="service-features">
+                        <li>Safe and secure process</li>
+                        <li>Latest firmware support</li>
+                        <li>Backup service included</li>
+                    </ul>
+                </div>
+                <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="service-img">
+                        <img src="../images/service-placeholder.jpg" alt="Game Installation">
+                    </div>
+                    <h3>Game Installation</h3>
+                    <p>Latest games installation and updates</p>
+                    <ul class="service-features">
+                        <li>Wide game selection</li>
+                        <li>Quick installation</li>
+                        <li>Update service</li>
+                    </ul>
+                </div>
+                <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="service-img">
+                        <img src="../images/service-placeholder.jpg" alt="Gaming Sessions">
+                    </div>
+                    <h3>Gaming Sessions</h3>
+                    <p>Premium gaming experience</p>
+                    <ul class="service-features">
+                        <li>HD displays</li>
+                        <li>Comfortable seating</li>
+                        <li>Snack bar available</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer data-aos="fade-up" data-aos-duration="1000">
+        <div class="footer-content">
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="games.html">Games</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="tournaments.html">Tournaments</a></li>
+                </ul>
+            </div>
+            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                <h3>Connect With Us</h3>
+                <div class="social-links" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CtrlZone. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- AOS Library -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            offset: 200,
+            delay: 100,
+            duration: 800,
+            easing: 'ease',
+            once: false,
+            mirror: true,
+            anchorPlacement: 'top-bottom'
+        });
+    </script>
+    <script src="../js/script.js"></script>
+</body>
+</html>
