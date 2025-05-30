@@ -14,24 +14,31 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Background Slideshow -->
-    <div class="bg-slideshow">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="logo-container">
+                <canvas id="matrixCanvas" class="matrix-logo-bg"></canvas>
+                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+            </div>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <p class="loading-text cyberpunk-small">Loading...</p>
+        </div>
     </div>
+
+    <!-- Particles Background -->
+    <div id="particles-js" class="particles-container"></div>
+
+    <!-- Cyberpunk Grid Background -->
+    <div class="bg-grid"></div>
 
     <!-- Header & Navigation -->
     <header>
         <nav class="navbar">
             <div class="logo">
-                <h1>CtrlZone</h1>
+                <h1 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h1>
             </div>
             <div class="nav-toggle" id="navToggle">
                 <i class="fas fa-bars"></i>
@@ -50,8 +57,8 @@
     <!-- Hero Section -->
     <section id="home" class="hero" data-aos="fade-down" data-aos-duration="1200">
         <div class="hero-content" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
-            <h1 class="glowing-text">Command Your Game</h1>
-            <p>Kenya's Premier PlayStation Gaming Center</p>
+            <h1 class="glowing-text glitch-text" data-text="Command Your Game">Command Your Game</h1>
+            <p class="typing-text">Kenya's Premier PlayStation Gaming Center</p>
             <a href="pages/booking.html" class="cta-button">Book Now</a>
         </div>
     </section>
@@ -174,7 +181,6 @@
             <a href="pages/booking.html" class="neon-button">
                 <i class="fas fa-gamepad"></i> Book Now
             </a>
-            <p class="booking-description">Experience gaming like never before! Book your session now and enjoy our premium gaming setup.</p>
         </div>
     </section>
 
@@ -231,20 +237,29 @@
     </footer>
 
     <!-- Custom JavaScript -->
-    <!-- AOS Library -->
+    <!-- AOS Library JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         // Initialize AOS
         AOS.init({
             offset: 200,
             delay: 100,
-            duration: 800,
-            easing: 'ease',
+            duration: 1000,
             once: false,
             mirror: true,
             anchorPlacement: 'top-bottom'
         });
     </script>
+    <!-- Loading Screen JS -->
+    <script src="js/loading.js"></script>
+    <!-- Particles JS -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/particles-config.js"></script>
+    <!-- Mouse Trail Effect -->
+    <script src="js/mouse-trail.js"></script>
+    <!-- Sound Effects -->
+    <script src="js/sound-effects.js"></script>
+    <script src="js/matrix.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

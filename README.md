@@ -1,5 +1,4 @@
-
-live link: https://danchege.github.io/CtrlZone/
+# CtrlZone Gaming Center Website
 
 A modern, responsive website for CtrlZone, a Kenyan-based PlayStation gaming center.
 

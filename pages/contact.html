@@ -6,14 +6,35 @@
     <title>Contact Us - CtrlZone Gaming</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Audiowide&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="logo-container">
+                <canvas id="matrixCanvas" class="matrix-logo-bg"></canvas>
+                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+            </div>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <p class="loading-text cyberpunk-small">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Particles Background -->
+    <div id="particles-js" class="particles-container"></div>
+
+    <!-- Cyberpunk Grid Background -->
+    <div class="bg-grid"></div>
+
     <!-- Header & Navigation -->
     <header>
         <nav class="navbar">
             <div class="logo">
-                <h1><a href="../index.html">CtrlZone</a></h1>
+                <h1 class="cyberpunk glitch-text" data-text="CtrlZone"><a href="../index.html">CtrlZone</a></h1>
             </div>
             <div class="nav-toggle" id="navToggle">
                 <i class="fas fa-bars"></i>
@@ -98,6 +119,20 @@
         </div>
     </footer>
 
-    <script src="../js/script.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="../js/matrix.js"></script>
+    <script src="../js/effects.js"></script>
+    <script>
+        AOS.init({
+            offset: 200,
+            delay: 100,
+            duration: 800,
+            easing: 'ease',
+            once: false,
+            mirror: true,
+            anchorPlacement: 'top-bottom'
+        });
+    </script>
 </body>
 </html>
