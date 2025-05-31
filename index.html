@@ -28,283 +28,312 @@
         </div>
     </div>
 
-    <!-- Logo Background -->
-    <div class="logo-background">
-        <div class="floating-logo">
+    <!-- Auth Check Overlay -->
+    <div id="authCheckOverlay" class="auth-check-overlay">
+        <canvas id="authMatrixCanvas" class="auth-matrix-bg"></canvas>
+        <div class="auth-check-content">
             <div class="logo-container">
-                <canvas id="bgMatrixCanvas1" class="matrix-logo-bg"></canvas>
-                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+                <canvas id="authLogoMatrix" class="matrix-logo-bg"></canvas>
+                <h2 class="cyberpunk glitch-text" data-text="Access Required">Access Required</h2>
             </div>
-        </div>
-        <div class="floating-logo">
-            <div class="logo-container">
-                <canvas id="bgMatrixCanvas2" class="matrix-logo-bg"></canvas>
-                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+            <div class="auth-message">
+                <p class="typing-text">Initializing Security Protocol...</p>
+                <p class="cyberpunk-small">Authentication Required for System Access</p>
             </div>
-        </div>
-        <div class="floating-logo">
-            <div class="logo-container">
-                <canvas id="bgMatrixCanvas3" class="matrix-logo-bg"></canvas>
-                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
-            </div>
-        </div>
-        <div class="floating-logo">
-            <div class="logo-container">
-                <canvas id="bgMatrixCanvas4" class="matrix-logo-bg"></canvas>
-                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
-            </div>
-        </div>
-        <div class="floating-logo">
-            <div class="logo-container">
-                <canvas id="bgMatrixCanvas5" class="matrix-logo-bg"></canvas>
-                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
-            </div>
+            <a href="login.html" class="auth-redirect-btn">
+                <span class="btn-text">Initialize Login Sequence</span>
+                <i class="fas fa-terminal"></i>
+            </a>
         </div>
     </div>
 
-    <!-- Particles Background -->
-    <div id="particles-js" class="particles-container"></div>
-
-    <!-- Cyberpunk Grid Background -->
-    <div class="bg-grid"></div>
-
-    <!-- Header & Navigation -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h1>
-            </div>
-            <div class="nav-toggle" id="navToggle">
-                <i class="fas fa-bars"></i>
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="pages/games.html">Games</a></li>
-                <li><a href="pages/services.html">Services</a></li>
-                <li><a href="pages/tournaments.html">Tournaments</a></li>
-                <li><a href="pages/booking.html">Book Now</a></li>
-                <li><a href="pages/contact.html">Contact</a></li>
-                <li class="auth-buttons">
-                    <a href="/login.html" class="login-btn">Login</a>
-                    <a href="/register.html" class="register-btn">Register</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero" data-aos="fade-down" data-aos-duration="1200">
-        <div class="hero-content" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
-            <h1 class="glowing-text glitch-text" data-text="Command Your Game">Command Your Game</h1>
-            <p class="typing-text">Kenya's Premier PlayStation Gaming Center</p>
-            <a href="pages/booking.html" class="cta-button">Book Now</a>
-        </div>
-    </section>
-
-    <!-- Games Library -->
-    <section id="games" class="games" data-aos="fade-up" data-aos-duration="1000">
-        <h2>Our Game Library</h2>
-        <div class="game-grid">
-            <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
-                <div class="game-img">
-                    <img src="images/games/fc 25.jpg" alt="FC 25" class="game-cover">
-                </div>
-                <div class="game-info">
-                    <h3>FC 25</h3>
-                    <p>KSH 40 per game</p>
-                    <span class="tournament-badge">Tournament Available</span>
+    <!-- Main Content - Only visible when authenticated -->
+    <div id="mainContent" style="display: none;">
+        <!-- Logo Background -->
+        <div class="logo-background">
+            <div class="floating-logo">
+                <div class="logo-container">
+                    <canvas id="bgMatrixCanvas1" class="matrix-logo-bg"></canvas>
+                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
                 </div>
             </div>
-            <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
-                <div class="game-img">
-                    <img src="images/games/modern warfare.jpg" alt="Call of Duty: Modern Warfare" class="game-cover">
-                </div>
-                <div class="game-info">
-                    <h3>Call of Duty: Modern Warfare</h3>
-                    <p>KSH 50 per 30 mins</p>
+            <div class="floating-logo">
+                <div class="logo-container">
+                    <canvas id="bgMatrixCanvas2" class="matrix-logo-bg"></canvas>
+                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
                 </div>
             </div>
-            <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
-                <div class="game-img">
-                    <img src="images/games/spiderman.jpg" alt="Spider-Man: Miles Morales" class="game-cover">
-                </div>
-                <div class="game-info">
-                    <h3>Spider-Man: Miles Morales</h3>
-                    <p>KSH 50 per 30 mins</p>
+            <div class="floating-logo">
+                <div class="logo-container">
+                    <canvas id="bgMatrixCanvas3" class="matrix-logo-bg"></canvas>
+                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
                 </div>
             </div>
-            <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
-                <div class="game-img">
-                    <img src="images/games/god of war.jpg" alt="God of War" class="game-cover">
+            <div class="floating-logo">
+                <div class="logo-container">
+                    <canvas id="bgMatrixCanvas4" class="matrix-logo-bg"></canvas>
+                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
                 </div>
-                <div class="game-info">
-                    <h3>God of War</h3>
-                    <p>KSH 50 per 30 mins</p>
+            </div>
+            <div class="floating-logo">
+                <div class="logo-container">
+                    <canvas id="bgMatrixCanvas5" class="matrix-logo-bg"></canvas>
+                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
                 </div>
             </div>
         </div>
-        <div class="view-more-container">
-            <a href="pages/games.html" class="view-more-btn">View More Games</a>
-        </div>
-    </section>
 
-    <!-- Services -->
-    <section id="services" class="services" data-aos="fade-up" data-aos-duration="1000">
-        <h2>Our Services</h2>
-        <div class="service-grid">
-            <div class="service-card" data-aos="flip-left" data-aos-delay="100">
-                <i class="fas fa-tools"></i>
-                <h3>Console Jailbreak</h3>
-                <p>Professional PlayStation jailbreaking service</p>
-            </div>
-            <div class="service-card" data-aos="flip-left" data-aos-delay="100">
-                <i class="fas fa-download"></i>
-                <h3>Game Installation</h3>
-                <p>Latest games installation and updates</p>
-            </div>
-            <div class="service-card" data-aos="flip-left" data-aos-delay="100">
-                <i class="fas fa-trophy"></i>
-                <h3>Tournaments</h3>
-                <p>Regular gaming tournaments with prizes</p>
-            </div>
-            <div class="service-card" data-aos="flip-left" data-aos-delay="100">
-                <i class="fas fa-clock"></i>
-                <h3>Gaming Sessions</h3>
-                <p>Hourly and package gaming sessions</p>
-            </div>
-        </div>
-        <div class="view-more-container">
-            <a href="pages/services.html" class="view-more-btn">View More Services</a>
-        </div>
-    </section>
+        <!-- Particles Background -->
+        <div id="particles-js" class="particles-container"></div>
 
-    <!-- Tournaments -->
-    <section id="tournaments" class="tournaments" data-aos="fade-up" data-aos-duration="1000">
-        <h2>Upcoming Tournaments</h2>
-        <div class="tournament-grid">
-            <div class="tournament-card" data-aos="zoom-in-up" data-aos-delay="100">
-                <div class="tournament-info">
-                    <i class="fas fa-trophy"></i>
-                    <h3>FC 25 Championship</h3>
-                    <p>Weekend Warriors League</p>
-                    <div class="tournament-details">
-                        <p><i class="fas fa-calendar"></i> Every Saturday</p>
-                        <p><i class="fas fa-info-circle"></i> Prize pool will be announced</p>
+        <!-- Cyberpunk Grid Background -->
+        <div class="bg-grid"></div>
+
+        <!-- Header & Navigation -->
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <h1 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h1>
+                </div>
+                <div class="nav-toggle" id="navToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <div class="nav-close" id="navClose">
+                        <i class="fas fa-times"></i>
                     </div>
-                    <a href="pages/tournaments.html" class="register-btn">Register Interest</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tournament Registration Form -->
-        <div id="tournamentModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h3>Tournament Registration</h3>
-                <form id="tournamentForm" class="tournament-form">
-                    <input type="text" name="name" placeholder="Full Name" required>
-                    <input type="tel" name="contact" placeholder="Phone Number" required>
-                    <input type="hidden" name="game" value="fc25">
-                    <p class="form-note">* Tournament is exclusively for FC 25</p>
-                    <button type="submit">Register</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Information -->
-    <section id="contact" class="contact-info-section" data-aos="fade-up" data-aos-duration="1000">
-        <h3>Contact Us</h3>
-        <div class="contact-list">
-            <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-phone"></i>
-                </div>
-                <div class="contact-details">
-                    <div class="contact-label">Phone</div>
-                    <a href="tel:+254713332171" class="contact-value">+254 713 332 171</a>
-                </div>
-            </div>
-
-            <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fab fa-whatsapp"></i>
-                </div>
-                <div class="contact-details">
-                    <div class="contact-label">WhatsApp</div>
-                    <a href="https://wa.me/254713332171" target="_blank" class="contact-value">+254 713 332 171</a>
-                </div>
-            </div>
-
-            <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="contact-details">
-                    <div class="contact-label">Email</div>
-                    <a href="mailto:danychege28@gmail.com" class="contact-value">danychege28@gmail.com</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact" data-aos="fade-up" data-aos-duration="1000">
-        <h2>Find Us</h2>
-        <div class="contact-grid">
-            <div class="map-container" data-aos="fade-right" data-aos-delay="200">
-                <!-- Google Maps embed for Nakuru, Kenya -->
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.75772082225!2d36.02464365820313!3d-0.2827821999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182a3eaf1a4314d3%3A0xb5f3a714b903be78!2sNakuru%2C%20Kenya!5e0!3m2!1sen!2sus!4v1635000000000!5m2!1sen!2sus" 
-                    width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-            <div class="contact-info" data-aos="fade-left" data-aos-delay="400">
-                <div class="info-item" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fas fa-clock"></i>
-                    <p>Open Daily: 9:00 AM - 10:00 PM</p>
-                </div>
-                <div class="info-item" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fab fa-whatsapp"></i>
-                    <p><a href="https://wa.me/254713332171" target="_blank">WhatsApp Us</a></p>
-                </div>
-                <div class="info-item" data-aos="fade-up" data-aos-delay="100">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p>Nakuru, Kenya</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer data-aos="fade-up" data-aos-duration="1000">
-        <div class="footer-content">
-            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#games">Games</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#tournaments">Tournaments</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pages/games.html">Games</a></li>
+                    <li><a href="pages/services.html">Services</a></li>
+                    <li><a href="pages/tournaments.html">Tournaments</a></li>
+                    <li><a href="pages/booking.html">Book Now</a></li>
+                    <li><a href="pages/contact.html">Contact</a></li>
+                    <li class="auth-buttons">
+                        <a href="#" id="logoutBtn" class="logout-btn">Logout</a>
+                    </li>
                 </ul>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero" data-aos="fade-down" data-aos-duration="1200">
+            <div class="hero-content" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
+                <h1 class="glowing-text glitch-text" data-text="Command Your Game">Command Your Game</h1>
+                <p class="typing-text">Kenya's Premier PlayStation Gaming Center</p>
+                <a href="pages/booking.html" class="cta-button">Book Now</a>
             </div>
-            <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
-                <h3>Connect With Us</h3>
-                <div class="social-links" data-aos="fade-up" data-aos-delay="300">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
+        </section>
+
+        <!-- Games Library -->
+        <section id="games" class="games" data-aos="fade-up" data-aos-duration="1000">
+            <h2>Our Game Library</h2>
+            <div class="game-grid">
+                <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="game-img">
+                        <img src="images/games/fc 25.jpg" alt="FC 25" class="game-cover">
+                    </div>
+                    <div class="game-info">
+                        <h3>FC 25</h3>
+                        <p>KSH 40 per game</p>
+                        <span class="tournament-badge">Tournament Available</span>
+                    </div>
+                </div>
+                <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="game-img">
+                        <img src="images/games/modern warfare.jpg" alt="Call of Duty: Modern Warfare" class="game-cover">
+                    </div>
+                    <div class="game-info">
+                        <h3>Call of Duty: Modern Warfare</h3>
+                        <p>KSH 50 per 30 mins</p>
+                    </div>
+                </div>
+                <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="game-img">
+                        <img src="images/games/spiderman.jpg" alt="Spider-Man: Miles Morales" class="game-cover">
+                    </div>
+                    <div class="game-info">
+                        <h3>Spider-Man: Miles Morales</h3>
+                        <p>KSH 50 per 30 mins</p>
+                    </div>
+                </div>
+                <div class="game-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="game-img">
+                        <img src="images/games/god of war.jpg" alt="God of War" class="game-cover">
+                    </div>
+                    <div class="game-info">
+                        <h3>God of War</h3>
+                        <p>KSH 50 per 30 mins</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 CtrlZone. All rights reserved.</p>
-        </div>
-    </footer>
+            <div class="view-more-container">
+                <a href="pages/games.html" class="view-more-btn">View More Games</a>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="services" data-aos="fade-up" data-aos-duration="1000">
+            <h2>Our Services</h2>
+            <div class="service-grid">
+                <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                    <i class="fas fa-tools"></i>
+                    <h3>Console Jailbreak</h3>
+                    <p>Professional PlayStation jailbreaking service</p>
+                </div>
+                <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                    <i class="fas fa-download"></i>
+                    <h3>Game Installation</h3>
+                    <p>Latest games installation and updates</p>
+                </div>
+                <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Tournaments</h3>
+                    <p>Regular gaming tournaments with prizes</p>
+                </div>
+                <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                    <i class="fas fa-clock"></i>
+                    <h3>Gaming Sessions</h3>
+                    <p>Hourly and package gaming sessions</p>
+                </div>
+            </div>
+            <div class="view-more-container">
+                <a href="pages/services.html" class="view-more-btn">View More Services</a>
+            </div>
+        </section>
+
+        <!-- Tournaments -->
+        <section id="tournaments" class="tournaments" data-aos="fade-up" data-aos-duration="1000">
+            <h2>Upcoming Tournaments</h2>
+            <div class="tournament-grid">
+                <div class="tournament-card" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="tournament-info">
+                        <i class="fas fa-trophy"></i>
+                        <h3>FC 25 Championship</h3>
+                        <p>Weekend Warriors League</p>
+                        <div class="tournament-details">
+                            <p><i class="fas fa-calendar"></i> Every Saturday</p>
+                            <p><i class="fas fa-info-circle"></i> Prize pool will be announced</p>
+                        </div>
+                        <a href="pages/tournaments.html" class="register-btn">Register Interest</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tournament Registration Form -->
+            <div id="tournamentModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Tournament Registration</h3>
+                    <form id="tournamentForm" class="tournament-form">
+                        <input type="text" name="name" placeholder="Full Name" required>
+                        <input type="tel" name="contact" placeholder="Phone Number" required>
+                        <input type="hidden" name="game" value="fc25">
+                        <p class="form-note">* Tournament is exclusively for FC 25</p>
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section id="contact" class="contact-info-section" data-aos="fade-up" data-aos-duration="1000">
+            <h3>Contact Us</h3>
+            <div class="contact-list">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <div class="contact-label">Phone</div>
+                        <a href="tel:+254713332171" class="contact-value">+254 713 332 171</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="contact-details">
+                        <div class="contact-label">WhatsApp</div>
+                        <a href="https://wa.me/254713332171" target="_blank" class="contact-value">+254 713 332 171</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <div class="contact-label">Email</div>
+                        <a href="mailto:danychege28@gmail.com" class="contact-value">danychege28@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact" data-aos="fade-up" data-aos-duration="1000">
+            <h2>Find Us</h2>
+            <div class="contact-grid">
+                <div class="map-container" data-aos="fade-right" data-aos-delay="200">
+                    <!-- Google Maps embed for Bahati, Nakuru -->
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15959.013081713!2d36.07583678815297!3d-0.2833333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1829f9c5f0d4cd7d%3A0x87f6c4b07f98c51d!2sBahati%2C%20Nakuru!5e0!3m2!1sen!2ske!4v1709835367123!5m2!1sen!2ske"
+                        width="100%" 
+                        height="300" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="contact-info" data-aos="fade-left" data-aos-delay="400">
+                    <div class="info-item" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fas fa-clock"></i>
+                        <p>Open Daily: 9:00 AM - 10:00 PM</p>
+                    </div>
+                    <div class="info-item" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fab fa-whatsapp"></i>
+                        <p><a href="https://wa.me/254713332171" target="_blank">WhatsApp Us</a></p>
+                    </div>
+                    <div class="info-item" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Bahati, Nakuru, Kenya</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer data-aos="fade-up" data-aos-duration="1000">
+            <div class="footer-content">
+                <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#games">Games</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#tournaments">Tournaments</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links" data-aos="fade-up" data-aos-delay="300">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CtrlZone. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
 
     <!-- Custom JavaScript -->
-    <!-- AOS Library JS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // Initialize AOS
         AOS.init({
             offset: 200,
             delay: 100,
@@ -320,12 +349,14 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="js/particles-config.js"></script>
     <!-- Mouse Trail Effect -->
-    <script src="js/mouse-trail.js"></script>
-    <!-- Sound Effects -->
     <script src="js/sound-effects.js"></script>
     <script src="js/matrix.js"></script>
+    <!-- Auth Matrix Effect -->
+    <script src="js/auth-matrix.js"></script>
     <!-- Firebase Configuration -->
     <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/auth-guard.js"></script>
     <!-- Main JavaScript -->
     <script type="module" src="js/script.js"></script>
 </body>

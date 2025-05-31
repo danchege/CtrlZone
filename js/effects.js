@@ -45,14 +45,4 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingScreen.classList.add('hidden');
         }
     }, 2000);
-
-    // Mobile menu toggle
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-    }
 });

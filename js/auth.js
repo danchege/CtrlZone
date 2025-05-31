@@ -1,37 +1,74 @@
-import { auth, db, firebaseConfig } from './firebase-config.js';
+import { auth, db } from './firebase-config.js';
 import { 
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
     GoogleAuthProvider,
     signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
     onAuthStateChanged
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import { doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+// Initialize Google Provider with mobile optimization
 const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+    prompt: 'select_account',
+    // Add mobile-specific settings
+    mobile: true,
+    // Handle redirect for mobile
+    redirect_uri: window.location.origin + '/login.html'
+});
 
 // Authentication state observer
 export function initAuth() {
     onAuthStateChanged(auth, (user) => {
+        const currentPath = window.location.pathname;
+        console.log('Current path:', currentPath);
+        console.log('Auth state changed:', user ? 'logged in' : 'logged out');
+
         if (user) {
             // User is signed in
+            console.log('User is signed in:', user.email);
+            
+            // Update UI elements
             document.querySelectorAll('.auth-required').forEach(el => el.style.display = 'block');
             document.querySelectorAll('.no-auth').forEach(el => el.style.display = 'none');
+            
+            // Hide auth check overlay and show main content
+            const authCheckOverlay = document.getElementById('authCheckOverlay');
+            const mainContent = document.getElementById('mainContent');
+            if (authCheckOverlay) authCheckOverlay.style.display = 'none';
+            if (mainContent) mainContent.style.display = 'block';
+            
             updateUIWithUserInfo(user);
+
+            // Only redirect if on login or register page
+            if (currentPath.includes('login.html') || currentPath.includes('register.html')) {
+                window.location.href = 'index.html';
+            }
         } else {
             // User is signed out
+            console.log('User is signed out');
+            
+            // Update UI elements
             document.querySelectorAll('.auth-required').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.no-auth').forEach(el => el.style.display = 'block');
+            
+            // Show auth check overlay and hide main content
+            const authCheckOverlay = document.getElementById('authCheckOverlay');
+            const mainContent = document.getElementById('mainContent');
+            if (authCheckOverlay) authCheckOverlay.style.display = 'flex';
+            if (mainContent) mainContent.style.display = 'none';
+            
             updateUIForLoggedOut();
         }
     });
 }
+
+// Initialize auth when DOM is loaded
+document.addEventListener('DOMContentLoaded', initAuth);
 
 // Register new user
 export async function registerUser(email, password, username) {
@@ -69,25 +106,44 @@ export async function loginUser(email, password) {
 // Google Sign-in
 export async function signInWithGoogle() {
     try {
-        const result = await signInWithPopup(auth, googleProvider);
-        const user = result.user;
-
-        // Check if user profile exists
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (!userDoc.exists()) {
-            // Create new user profile
-            await setDoc(doc(db, 'users', user.uid), {
-                username: user.displayName,
-                email: user.email,
-                createdAt: new Date().toISOString(),
-                gamesPlayed: 0,
-                tournamentsParticipated: 0
-            });
+        // Check if mobile device
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        console.log('Device type:', isMobile ? 'mobile' : 'desktop');
+        
+        let result;
+        if (isMobile) {
+            // Use redirect method for mobile
+            await signInWithRedirect(auth, googleProvider);
+            // Note: The page will reload after redirect
+        } else {
+            // Use popup for desktop
+            result = await signInWithPopup(auth, googleProvider);
+            if (result) {
+                const user = result.user;
+                // Handle desktop login success
+                try {
+                    // Check if user profile exists
+                    const userDoc = await getDoc(doc(db, 'users', user.uid));
+                    if (!userDoc.exists()) {
+                        await setDoc(doc(db, 'users', user.uid), {
+                            email: user.email,
+                            displayName: user.displayName,
+                            photoURL: user.photoURL,
+                            createdAt: new Date().toISOString(),
+                            gamesPlayed: 0,
+                            tournamentsParticipated: 0
+                        });
+                    }
+                    handleAuthSuccess(user);
+                } catch (error) {
+                    console.error('Error handling user profile:', error);
+                    showNotification('Error creating user profile', true);
+                }
+            }
         }
-
-        return user;
     } catch (error) {
         console.error('Error signing in with Google:', error);
+        showNotification(error.message, true);
         throw error;
     }
 }
@@ -118,31 +174,68 @@ function updateUIForLoggedOut() {
     });
 }
 
-// Notification Functions
-function showNotification(message) {
-    const notification = document.getElementById('authNotification');
-    const messageSpan = notification.querySelector('.message');
-    messageSpan.textContent = message;
-    notification.classList.add('show');
-    
-    // Hide notification after 3 seconds
+// Show loading state
+function showLoading(button) {
+    if (!button) return;
+    const btnText = button.querySelector('.btn-text');
+    const spinner = button.querySelector('.loading-spinner');
+    if (btnText && spinner) {
+        button.disabled = true;
+        btnText.style.opacity = '0';
+        spinner.style.display = 'block';
+    } else {
+        // Fallback for buttons without spinner structure
+        button.disabled = true;
+        button.style.opacity = '0.7';
+    }
+}
+
+// Hide loading state
+function hideLoading(button, originalText) {
+    if (!button) return;
+    const btnText = button.querySelector('.btn-text');
+    const spinner = button.querySelector('.loading-spinner');
+    if (btnText && spinner) {
+        button.disabled = false;
+        btnText.style.opacity = '1';
+        btnText.textContent = originalText;
+        spinner.style.display = 'none';
+    } else {
+        // Fallback for buttons without spinner structure
+        button.disabled = false;
+        button.style.opacity = '1';
+    }
+}
+
+// Show notification
+function showNotification(message, isError = false) {
+    const container = document.getElementById('notificationContainer');
+    const notification = document.createElement('div');
+    notification.className = `notification ${isError ? 'error' : 'success'}`;
+    notification.textContent = message;
+    container.appendChild(notification);
+
+    // Remove notification after 5 seconds
     setTimeout(() => {
-        notification.classList.remove('show');
-    }, 3000);
+        notification.classList.add('fade-out');
+        setTimeout(() => notification.remove(), 500);
+    }, 5000);
 }
 
 // Handle successful authentication
-function handleAuthSuccess(user, isNewUser = false) {
-    const message = isNewUser 
-        ? "Registration successful! Welcome to CtrlZone!" 
-        : "Login successful! Welcome back!";
+function handleAuthSuccess(user) {
+    showNotification('Login successful! Redirecting...');
     
-    showNotification(message);
+    // Update UI immediately
+    const authCheckOverlay = document.getElementById('authCheckOverlay');
+    const mainContent = document.getElementById('mainContent');
+    if (authCheckOverlay) authCheckOverlay.style.display = 'none';
+    if (mainContent) mainContent.style.display = 'block';
     
-    // Redirect to dashboard after 1 second
+    // Force redirect to index.html after a short delay
     setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 1000);
+        window.location.replace('/index.html');
+    }, 1500);
 }
 
 // Login Form
@@ -152,13 +245,23 @@ if (loginForm) {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
 
         try {
+            showLoading(submitBtn);
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            handleAuthSuccess(userCredential.user);
+            console.log('Login successful:', userCredential.user.email);
+            showNotification('Login successful! Redirecting...');
+            
+            // Force redirect to index.html
+            setTimeout(() => {
+                window.location.replace('/index.html');
+            }, 1500);
         } catch (error) {
-            console.error(error);
-            showNotification(error.message);
+            console.error('Login error:', error);
+            showNotification(error.message, true);
+        } finally {
+            hideLoading(submitBtn, 'Login');
         }
     });
 }
@@ -171,45 +274,134 @@ if (registerForm) {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
-        const username = document.getElementById('username').value;
+        const submitBtn = registerForm.querySelector('button[type="submit"]');
 
         if (password !== confirmPassword) {
-            showNotification("Passwords don't match!");
+            showNotification("Passwords don't match!", true);
             return;
         }
 
         try {
+            showLoading(submitBtn);
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            // Create user profile in Firestore
+            
+            // Create user profile
             await setDoc(doc(db, 'users', userCredential.user.uid), {
-                username: username,
                 email: email,
                 createdAt: new Date().toISOString(),
                 gamesPlayed: 0,
                 tournamentsParticipated: 0
             });
-            handleAuthSuccess(userCredential.user, true);
+
+            console.log('Registration successful:', userCredential.user.email);
+            showNotification('Registration successful! Redirecting...');
+            
+            // Force redirect to index.html
+            setTimeout(() => {
+                window.location.replace('/index.html');
+            }, 1500);
         } catch (error) {
-            console.error(error);
-            showNotification(error.message);
+            console.error('Registration error:', error);
+            showNotification(error.message, true);
+        } finally {
+            hideLoading(submitBtn, 'Register');
         }
     });
 }
 
-// Google Authentication
+// Google Sign In
+async function handleGoogleSignIn(button) {
+    if (!button) return;
+    
+    try {
+        showLoading(button);
+        await signInWithGoogle();
+        // Note: For mobile redirect, this might not execute immediately
+        // as the page will reload after redirect
+    } catch (error) {
+        console.error('Google sign in error:', error);
+        showNotification(error.message, true);
+    } finally {
+        hideLoading(button, button.textContent || 'Continue with Google');
+    }
+}
+
+// Google Authentication Buttons
 const googleLoginBtn = document.getElementById('googleLogin');
 const googleRegisterBtn = document.getElementById('googleRegister');
 
-[googleLoginBtn, googleRegisterBtn].forEach(btn => {
-    if (btn) {
-        btn.addEventListener('click', async () => {
+if (googleLoginBtn) {
+    googleLoginBtn.addEventListener('click', () => handleGoogleSignIn(googleLoginBtn));
+}
+
+if (googleRegisterBtn) {
+    googleRegisterBtn.addEventListener('click', () => handleGoogleSignIn(googleRegisterBtn));
+}
+
+// Logout
+const logoutBtn = document.getElementById('logoutBtn');
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+        try {
+            await signOut(auth);
+            window.location.href = 'login.html';
+        } catch (error) {
+            console.error('Logout error:', error);
+            showNotification(error.message, true);
+        }
+    });
+}
+
+// Forgot Password
+const forgotPasswordLink = document.getElementById('forgotPassword');
+if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        if (!email) {
+            alert('Please enter your email address first.');
+            return;
+        }
+        // Implement password reset functionality here
+        alert('Password reset functionality coming soon!');
+    });
+}
+
+// Update the redirect result handler
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Check for redirect result on page load
+        const result = await getRedirectResult(auth);
+        if (result) {
+            const user = result.user;
+            console.log('Redirect result received:', user.email);
+            
             try {
-                const result = await signInWithPopup(auth, googleProvider);
-                handleAuthSuccess(result.user);
+                // Check if user profile exists
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (!userDoc.exists()) {
+                    // Create user profile
+                    await setDoc(doc(db, 'users', user.uid), {
+                        email: user.email,
+                        displayName: user.displayName,
+                        photoURL: user.photoURL,
+                        createdAt: new Date().toISOString(),
+                        gamesPlayed: 0,
+                        tournamentsParticipated: 0
+                    });
+                    console.log('Created new user profile');
+                }
+
+                // Handle successful authentication
+                handleAuthSuccess(user);
+
             } catch (error) {
-                console.error(error);
-                showNotification(error.message);
+                console.error('Error handling user profile:', error);
+                showNotification('Error creating user profile', true);
             }
-        });
+        }
+    } catch (error) {
+        console.error('Redirect result error:', error);
+        showNotification(error.message, true);
     }
 }); 

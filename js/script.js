@@ -16,20 +16,72 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeMap();
 });
 
-// Navigation Toggle
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.querySelector('.nav-links');
+// Mobile Navigation
+function initializeNavigation() {
+    const navToggle = document.getElementById('navToggle');
+    const navClose = document.getElementById('navClose');
+    const navLinks = document.getElementById('navLinks');
+    const backdrop = document.createElement('div');
+    backdrop.className = 'nav-backdrop';
+    document.body.appendChild(backdrop);
 
-navToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-});
+    // Open mobile navigation
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            backdrop.style.display = 'block';
+            setTimeout(() => {
+                backdrop.style.opacity = '1';
+            }, 10);
+        });
+    }
 
-// Close navigation on link click (mobile)
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-    });
-});
+    // Close mobile navigation
+    if (navClose) {
+        navClose.addEventListener('click', closeNavigation);
+    }
+
+    // Close navigation when clicking outside
+    backdrop.addEventListener('click', closeNavigation);
+
+    // Close navigation when clicking on a link
+    if (navLinks) {
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeNavigation);
+        });
+    }
+
+    function closeNavigation() {
+        if (navLinks) {
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+            backdrop.style.opacity = '0';
+            setTimeout(() => {
+                backdrop.style.display = 'none';
+            }, 300);
+        }
+    }
+
+    // Add backdrop styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .nav-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 998;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    `;
+    document.head.appendChild(style);
+}
 
 // Initialize all forms
 function initializeForms() {
@@ -336,25 +388,6 @@ function initializeContactForm() {
             submitBtn.textContent = 'Send Message';
         }
     });
-}
-
-function initializeNavigation() {
-    // Mobile navigation toggle
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Close navigation on link click (mobile)
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-    }
 }
 
 function initializeAnimations() {

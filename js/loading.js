@@ -1,13 +1,48 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Get the loading screen element
-    const loadingScreen = document.querySelector('.loading-screen');
-    
-    // Hide loading screen after 5 seconds
-    setTimeout(() => {
-        loadingScreen.classList.add('hidden');
+// Loading screen handler
+class LoadingScreen {
+    constructor(loadingScreen) {
+        this.loadingScreen = loadingScreen;
+        this.loadingBar = loadingScreen.querySelector('.loading-bar');
+        this.matrixCanvas = loadingScreen.querySelector('.matrix-logo-bg');
+        this.initialize();
+    }
+
+    initialize() {
+        // Start the loading bar animation
+        if (this.loadingBar) {
+            this.loadingBar.style.width = '100%';
+        }
+
+        // Hide loading screen after exactly 3 seconds
+        setTimeout(() => {
+            this.hide();
+        }, 3000); // 3 seconds delay
+    }
+
+    hide() {
+        this.loadingScreen.classList.add('hidden');
         // Remove from DOM after transition
         setTimeout(() => {
-            loadingScreen.style.display = 'none';
+            this.loadingScreen.style.display = 'none';
         }, 500);
-    }, 5000); // 5 seconds delay
+    }
+
+    show() {
+        this.loadingScreen.style.display = 'flex';
+        this.loadingScreen.classList.remove('hidden');
+        if (this.loadingBar) {
+            this.loadingBar.style.width = '100%';
+        }
+    }
+}
+
+// Initialize all loading screens when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const loadingScreens = document.querySelectorAll('.loading-screen');
+    loadingScreens.forEach(screen => {
+        new LoadingScreen(screen);
+    });
 });
+
+// Export for use in other modules
+window.LoadingScreen = LoadingScreen;
