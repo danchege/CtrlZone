@@ -1,6 +1,4 @@
-# CtrlZone - Gaming Center Website
-
-Welcome to CtrlZone, Kenya's Premier PlayStation Gaming Center! 
+# CtrlZone Gaming Center Website
 
 ## Live Website
 🎮 Visit our website: [CtrlZone Gaming Center](https://ctrlzone-ac391.web.app/)
