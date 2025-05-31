@@ -66,7 +66,32 @@
 
     <main class="page-content">
         <section class="tournaments-page" data-aos="fade-up" data-aos-duration="1000">
+
+            <h1>Gaming Tournaments</h1>
+            <div class="tournament-info">
+                <div class="info-card">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Tournament Information</h3>
+                    <p>We exclusively host FC 25 tournaments. Tournament charges and prize pools will be communicated for each event.</p>
+                </div>
+            </div>
+
             <div class="tournament-registration">
+                <div class="tournament-grid">
+                <div class="tournament-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="tournament-img">
+                        <img src="../images/games/fc 25.jpg" alt="FC 25 Tournament">
+                    </div>
+                    <h3>FC 25 Championship</h3>
+                    <p>Weekend Warriors League</p>
+                    <div class="tournament-details">
+                        <p><i class="fas fa-calendar"></i> Every Saturday</p>
+                        <p><i class="fas fa-gamepad"></i> Game: FC 25</p>
+                        <p><i class="fas fa-info-circle"></i> Prize pool and entry fee will be announced</p>
+                    </div>
+                    <button class="register-btn" data-tournament="fc25">Register Interest</button>
+                </div>
+            </div>
                 <h2>FC 25 Tournament Registration</h2>
                 <div class="slots-counter" data-aos="fade-up" data-aos-delay="200">
                     <h3>Available Slots: <span id="availableSlots">16</span>/16</h3>
@@ -163,45 +188,11 @@
                     </div>
                 </div>
             </div>
-            <h1>Gaming Tournaments</h1>
-            <div class="tournament-info">
-                <div class="info-card">
-                    <i class="fas fa-info-circle"></i>
-                    <h3>Tournament Information</h3>
-                    <p>We exclusively host FC 25 tournaments. Tournament charges and prize pools will be communicated for each event.</p>
-                </div>
-            </div>
+            
 
-            <div class="tournament-grid">
-                <div class="tournament-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="tournament-img">
-                        <img src="../images/tournament-placeholder.jpg" alt="FC 25 Tournament">
-                    </div>
-                    <h3>FC 25 Championship</h3>
-                    <p>Weekend Warriors League</p>
-                    <div class="tournament-details">
-                        <p><i class="fas fa-calendar"></i> Every Saturday</p>
-                        <p><i class="fas fa-gamepad"></i> Game: FC 25</p>
-                        <p><i class="fas fa-info-circle"></i> Prize pool and entry fee will be announced</p>
-                    </div>
-                    <button class="register-btn" data-tournament="fc25">Register Interest</button>
-                </div>
-            </div>
+            
 
-            <!-- Tournament Registration Modal -->
-            <div id="tournamentModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h3>Tournament Registration</h3>
-                    <form id="tournamentForm" class="tournament-form">
-                        <input type="text" name="name" placeholder="Full Name" required>
-                        <input type="tel" name="contact" placeholder="Phone Number" required>
-                        <input type="hidden" name="game" value="fc25">
-                        <p class="form-note">* Tournament is exclusively for FC 25</p>
-                        <button type="submit">Register</button>
-                    </form>
-                </div>
-            </div>
+            
         </section>
     </main>
 

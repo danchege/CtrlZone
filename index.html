@@ -28,6 +28,40 @@
         </div>
     </div>
 
+    <!-- Logo Background -->
+    <div class="logo-background">
+        <div class="floating-logo">
+            <div class="logo-container">
+                <canvas id="bgMatrixCanvas1" class="matrix-logo-bg"></canvas>
+                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+            </div>
+        </div>
+        <div class="floating-logo">
+            <div class="logo-container">
+                <canvas id="bgMatrixCanvas2" class="matrix-logo-bg"></canvas>
+                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+            </div>
+        </div>
+        <div class="floating-logo">
+            <div class="logo-container">
+                <canvas id="bgMatrixCanvas3" class="matrix-logo-bg"></canvas>
+                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+            </div>
+        </div>
+        <div class="floating-logo">
+            <div class="logo-container">
+                <canvas id="bgMatrixCanvas4" class="matrix-logo-bg"></canvas>
+                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+            </div>
+        </div>
+        <div class="floating-logo">
+            <div class="logo-container">
+                <canvas id="bgMatrixCanvas5" class="matrix-logo-bg"></canvas>
+                <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
+            </div>
+        </div>
+    </div>
+
     <!-- Particles Background -->
     <div id="particles-js" class="particles-container"></div>
 
@@ -50,6 +84,10 @@
                 <li><a href="pages/tournaments.html">Tournaments</a></li>
                 <li><a href="pages/booking.html">Book Now</a></li>
                 <li><a href="pages/contact.html">Contact</a></li>
+                <li class="auth-buttons">
+                    <a href="/login.html" class="login-btn">Login</a>
+                    <a href="/register.html" class="register-btn">Register</a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -174,13 +212,39 @@
         </div>
     </section>
 
-    <!-- Booking Section -->
-    <section id="booking" class="booking" data-aos="fade-up" data-aos-duration="1000">
-        <h2>Book Your Gaming Session</h2>
-        <div class="booking-cta">
-            <a href="pages/booking.html" class="neon-button">
-                <i class="fas fa-gamepad"></i> Book Now
-            </a>
+    <!-- Contact Information -->
+    <section id="contact" class="contact-info-section" data-aos="fade-up" data-aos-duration="1000">
+        <h3>Contact Us</h3>
+        <div class="contact-list">
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-label">Phone</div>
+                    <a href="tel:+254713332171" class="contact-value">+254 713 332 171</a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-label">WhatsApp</div>
+                    <a href="https://wa.me/254713332171" target="_blank" class="contact-value">+254 713 332 171</a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-details">
+                    <div class="contact-label">Email</div>
+                    <a href="mailto:danychege28@gmail.com" class="contact-value">danychege28@gmail.com</a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -189,8 +253,8 @@
         <h2>Find Us</h2>
         <div class="contact-grid">
             <div class="map-container" data-aos="fade-right" data-aos-delay="200">
-                <!-- Replace src with actual Google Maps embed code -->
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255282.35853743783!2d36.70730744863281!3d-1.3028617999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sus!4v1635000000000!5m2!1sen!2sus" 
+                <!-- Google Maps embed for Nakuru, Kenya -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.75772082225!2d36.02464365820313!3d-0.2827821999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182a3eaf1a4314d3%3A0xb5f3a714b903be78!2sNakuru%2C%20Kenya!5e0!3m2!1sen!2sus!4v1635000000000!5m2!1sen!2sus" 
                     width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
             <div class="contact-info" data-aos="fade-left" data-aos-delay="400">
@@ -200,11 +264,11 @@
                 </div>
                 <div class="info-item" data-aos="fade-up" data-aos-delay="100">
                     <i class="fab fa-whatsapp"></i>
-                    <p><a href="https://wa.me/254700000000" target="_blank">WhatsApp Us</a></p>
+                    <p><a href="https://wa.me/254713332171" target="_blank">WhatsApp Us</a></p>
                 </div>
                 <div class="info-item" data-aos="fade-up" data-aos-delay="100">
                     <i class="fas fa-map-marker-alt"></i>
-                    <p>Nairobi, Kenya</p>
+                    <p>Nakuru, Kenya</p>
                 </div>
             </div>
         </div>
@@ -260,6 +324,9 @@
     <!-- Sound Effects -->
     <script src="js/sound-effects.js"></script>
     <script src="js/matrix.js"></script>
-    <script src="js/script.js"></script>
+    <!-- Firebase Configuration -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <!-- Main JavaScript -->
+    <script type="module" src="js/script.js"></script>
 </body>
 </html>

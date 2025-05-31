@@ -1,35 +1,50 @@
 // Matrix rain effect
-const canvas = document.getElementById('matrixCanvas');
-const ctx = canvas.getContext('2d');
+const loadingCanvas = document.getElementById('matrixCanvas');
+const loadingCtx = loadingCanvas.getContext('2d');
+
+// Get all background canvases
+const bgCanvases = [
+    document.getElementById('bgMatrixCanvas1'),
+    document.getElementById('bgMatrixCanvas2'),
+    document.getElementById('bgMatrixCanvas3'),
+    document.getElementById('bgMatrixCanvas4'),
+    document.getElementById('bgMatrixCanvas5')
+];
+
+const bgContexts = bgCanvases.map(canvas => canvas.getContext('2d'));
 
 // Set canvas size to match logo container
 function resizeCanvas() {
-    const container = document.querySelector('.logo-container');
-    if (container) {
-        canvas.width = container.offsetWidth;
-        canvas.height = container.offsetHeight;
-    }
+    const containers = document.querySelectorAll('.logo-container');
+    containers.forEach(container => {
+        const canvas = container.querySelector('canvas');
+        if (canvas) {
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+        }
+    });
 }
-
-// Initial resize
-resizeCanvas();
-
-// Resize on window change
-window.addEventListener('resize', resizeCanvas);
 
 // Characters to use (mix of katakana and matrix-style characters)
 const characters = 'ｦｱｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890';
 const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = [];
 
-// Initialize drops
-for (let i = 0; i < columns; i++) {
-    drops[i] = Math.random() * -100;
+// Initialize drops for a canvas
+function initDrops(canvas) {
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * -100;
+    }
+    return drops;
 }
 
-// Drawing function
-function draw() {
+// Initialize drops for all canvases
+let loadingDrops = initDrops(loadingCanvas);
+let bgDropsArray = bgCanvases.map(canvas => initDrops(canvas));
+
+// Drawing function for a specific canvas
+function drawMatrix(ctx, canvas, drops) {
     // Semi-transparent black background to create fade effect
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -71,43 +86,22 @@ function draw() {
 }
 
 // Animation loop
-let matrixInterval;
-
-// Start matrix animation
-function startMatrix() {
-    matrixInterval = setInterval(draw, 35);
-}
-
-// Stop matrix animation
-function stopMatrix() {
-    clearInterval(matrixInterval);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-// Start the matrix effect
-startMatrix();
-
-// Stop matrix when loading is complete
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        const loadingScreen = document.querySelector('.loading-screen');
-        if (loadingScreen) {
-            loadingScreen.classList.add('hidden');
-            setTimeout(() => {
-                stopMatrix();
-                canvas.style.display = 'none';
-            }, 500);
-        }
-    }, 2000);
-});
-
-// Add subtle mouse interaction
-canvas.addEventListener('mousemove', (e) => {
-    const x = Math.floor(e.clientX / fontSize);
-    if (x >= 0 && x < drops.length) {
-        // Create ripple effect
-        drops[x] = 0;
-        if (x > 0) drops[x-1] = 5;
-        if (x < drops.length - 1) drops[x+1] = 5;
+function animate() {
+    if (loadingCanvas) {
+        drawMatrix(loadingCtx, loadingCanvas, loadingDrops);
     }
-});
+    
+    // Draw matrix effect for all background canvases
+    bgCanvases.forEach((canvas, index) => {
+        if (canvas) {
+            drawMatrix(bgContexts[index], canvas, bgDropsArray[index]);
+        }
+    });
+    
+    requestAnimationFrame(animate);
+}
+
+// Initialize
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+animate();

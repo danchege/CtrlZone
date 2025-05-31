@@ -1,8 +1,19 @@
+// Import Firebase services
+import { auth, db, storage } from './firebase-config.js';
+import { 
+    collection, 
+    addDoc, 
+    getDocs, 
+    query, 
+    where 
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
     initializeNavigation();
     initializeForms();
     initializeAnimations();
+    initializeMap();
 });
 
 // Navigation Toggle
@@ -53,10 +64,37 @@ window.addEventListener('click', (e) => {
 });
 
 // Form handler functions
-function handleFormSubmission(formData, type) {
-    // TODO: Integrate with Firebase
-    console.log(`${type} Form Data:`, Object.fromEntries(formData));
-    return new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+async function handleFormSubmission(formData, type) {
+    try {
+        let data = Object.fromEntries(formData);
+        let collectionRef;
+        
+        switch(type) {
+            case 'tournament':
+                collectionRef = collection(db, 'tournaments');
+                break;
+            case 'Booking':
+                collectionRef = collection(db, 'bookings');
+                break;
+            case 'Contact':
+                collectionRef = collection(db, 'contacts');
+                break;
+            default:
+                throw new Error('Invalid form type');
+        }
+
+        // Add timestamp
+        data.timestamp = new Date().toISOString();
+        
+        // Add to Firestore
+        const docRef = await addDoc(collectionRef, data);
+        console.log(`${type} document written with ID: ${docRef.id}`);
+        
+        return docRef.id;
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        throw error;
+    }
 }
 
 // Initialize form submissions (to be integrated with Firebase later)
@@ -331,4 +369,76 @@ function initializeAnimations() {
             card.style.animation = 'none';
         });
     });
+}
+
+// Get current location and update map
+function initializeMap() {
+    const mapContainer = document.querySelector('.map-container');
+    if (!mapContainer) return;
+
+    // Create loading indicator
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'map-loading';
+    loadingDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting your location...';
+    mapContainer.appendChild(loadingDiv);
+
+    if (navigator.geolocation) {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                
+                // Update the map iframe with current location
+                const iframe = mapContainer.querySelector('iframe');
+                if (iframe) {
+                    const zoom = 15; // Higher zoom level for better location precision
+                    const newSrc = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.817028920325!2d${longitude}!3d${latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f${zoom}!3m3!1m2!1s0x0%3A0x0!2zM8KwMTcnMjIuMCJTIDM2wrAwMSc0OC44IkU!5e0!3m2!1sen!2sus!4v1635000000000!5m2!1sen!2sus`;
+                    iframe.src = newSrc;
+                }
+                
+                // Remove loading indicator
+                loadingDiv.remove();
+            },
+            function(error) {
+                console.log("Error getting location:", error);
+                let errorMessage = "Unable to get your location. ";
+                
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMessage += "Please enable location access to see nearby gaming centers.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMessage += "Location information is unavailable.";
+                        break;
+                    case error.TIMEOUT:
+                        errorMessage += "Location request timed out.";
+                        break;
+                    default:
+                        errorMessage += "An unknown error occurred.";
+                }
+                
+                // Show error message
+                loadingDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage}`;
+                loadingDiv.className = 'map-error';
+                
+                // Fallback to default Nakuru location after 5 seconds
+                setTimeout(() => {
+                    loadingDiv.remove();
+                }, 5000);
+            },
+            options
+        );
+    } else {
+        loadingDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Geolocation is not supported by your browser.';
+        loadingDiv.className = 'map-error';
+        setTimeout(() => {
+            loadingDiv.remove();
+        }, 5000);
+    }
 }

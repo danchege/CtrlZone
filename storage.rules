@@ -1,0 +1,28 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Check if user is admin
+    function isAdmin() {
+      return request.auth != null && 
+             firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // Game covers can only be uploaded by admins
+    match /game-covers/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Tournament banners can only be uploaded by admins
+    match /tournament-banners/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User avatars can be uploaded by the user themselves or admins
+    match /user-avatars/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if request.auth.uid == userId || isAdmin();
+    }
+  }
+} 
