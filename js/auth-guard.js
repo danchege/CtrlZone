@@ -41,8 +41,15 @@ function initAuthGuard() {
     const currentPage = getCurrentPage();
     console.log('Current page:', currentPage);
     
+    // Hide main content initially
+    const mainContent = document.getElementById('mainContent');
+    if (mainContent) mainContent.style.display = 'none';
+    
     onAuthStateChanged(auth, (user) => {
         console.log('Auth guard state changed. User:', user ? user.email : 'not logged in');
+        
+        const authCheckOverlay = document.getElementById('authCheckOverlay');
+        const mainContent = document.getElementById('mainContent');
         
         if (user) {
             // User is logged in
@@ -53,20 +60,36 @@ function initAuthGuard() {
                 return;
             }
             
-            // For protected pages, show content
-            const authCheckOverlay = document.getElementById('authCheckOverlay');
-            const mainContent = document.getElementById('mainContent');
-            if (authCheckOverlay) authCheckOverlay.style.display = 'none';
-            if (mainContent) mainContent.style.display = 'block';
+            // For all pages when logged in
+            if (authCheckOverlay) {
+                authCheckOverlay.style.display = 'none';
+                console.log('Auth overlay hidden');
+            }
+            if (mainContent) {
+                mainContent.style.display = 'block';
+                console.log('Main content shown');
+            }
+            
+            // Update auth-dependent UI elements
+            document.querySelectorAll('.auth-required').forEach(el => el.style.display = 'block');
+            document.querySelectorAll('.no-auth').forEach(el => el.style.display = 'none');
             
         } else {
             // User is not logged in
             if (requiresAuth(currentPage)) {
-                // If on protected page, show auth overlay
-                const authCheckOverlay = document.getElementById('authCheckOverlay');
-                const mainContent = document.getElementById('mainContent');
-                if (authCheckOverlay) authCheckOverlay.style.display = 'flex';
-                if (mainContent) mainContent.style.display = 'none';
+                // If on protected page, show auth overlay and hide content
+                if (authCheckOverlay) {
+                    authCheckOverlay.style.display = 'flex';
+                    console.log('Auth overlay shown');
+                }
+                if (mainContent) {
+                    mainContent.style.display = 'none';
+                    console.log('Main content hidden');
+                }
+                
+                // Update auth-dependent UI elements
+                document.querySelectorAll('.auth-required').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.no-auth').forEach(el => el.style.display = 'block');
             }
         }
     });

@@ -14,54 +14,19 @@ import { doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/f
 // Initialize Google Provider with mobile optimization
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
-    prompt: 'select_account',
-    // Add mobile-specific settings
-    mobile: true,
-    // Handle redirect for mobile
-    redirect_uri: window.location.origin + '/login.html'
+    prompt: 'select_account'
 });
 
 // Authentication state observer
 export function initAuth() {
     onAuthStateChanged(auth, (user) => {
-        const currentPath = window.location.pathname;
-        console.log('Current path:', currentPath);
-        console.log('Auth state changed:', user ? 'logged in' : 'logged out');
-
         if (user) {
             // User is signed in
             console.log('User is signed in:', user.email);
-            
-            // Update UI elements
-            document.querySelectorAll('.auth-required').forEach(el => el.style.display = 'block');
-            document.querySelectorAll('.no-auth').forEach(el => el.style.display = 'none');
-            
-            // Hide auth check overlay and show main content
-            const authCheckOverlay = document.getElementById('authCheckOverlay');
-            const mainContent = document.getElementById('mainContent');
-            if (authCheckOverlay) authCheckOverlay.style.display = 'none';
-            if (mainContent) mainContent.style.display = 'block';
-            
             updateUIWithUserInfo(user);
-
-            // Only redirect if on login or register page
-            if (currentPath.includes('login.html') || currentPath.includes('register.html')) {
-                window.location.href = 'index.html';
-            }
         } else {
             // User is signed out
             console.log('User is signed out');
-            
-            // Update UI elements
-            document.querySelectorAll('.auth-required').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.no-auth').forEach(el => el.style.display = 'block');
-            
-            // Show auth check overlay and hide main content
-            const authCheckOverlay = document.getElementById('authCheckOverlay');
-            const mainContent = document.getElementById('mainContent');
-            if (authCheckOverlay) authCheckOverlay.style.display = 'flex';
-            if (mainContent) mainContent.style.display = 'none';
-            
             updateUIForLoggedOut();
         }
     });
@@ -106,7 +71,6 @@ export async function loginUser(email, password) {
 // Google Sign-in
 export async function signInWithGoogle() {
     try {
-        // Check if mobile device
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         console.log('Device type:', isMobile ? 'mobile' : 'desktop');
         
@@ -315,9 +279,9 @@ async function handleGoogleSignIn(button) {
     
     try {
         showLoading(button);
-        await signInWithGoogle();
-        // Note: For mobile redirect, this might not execute immediately
-        // as the page will reload after redirect
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        await handleAuthSuccess(user);
     } catch (error) {
         console.error('Google sign in error:', error);
         showNotification(error.message, true);
