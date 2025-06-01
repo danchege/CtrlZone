@@ -16,7 +16,7 @@ class LoadingScreen {
         // Hide loading screen after exactly 3 seconds
         setTimeout(() => {
             this.hide();
-        }, 3000); // 3 seconds delay
+        }, 1000); // 1 second delay
     }
 
     hide() {

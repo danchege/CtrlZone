@@ -3,7 +3,6 @@ import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/fi
 
 // List of pages that require authentication
 const protectedPages = [
-    'index.html',
     'tournaments.html',
     'profile.html',
     'dashboard.html',
@@ -41,15 +40,17 @@ function initAuthGuard() {
     const currentPage = getCurrentPage();
     console.log('Current page:', currentPage);
     
-    // Hide main content initially
-    const mainContent = document.getElementById('mainContent');
-    if (mainContent) mainContent.style.display = 'none';
+    // No need to hide main content initially for non-protected pages
+    if (requiresAuth(currentPage)) {
+        const mainContent = document.querySelector('.main-wrapper');
+        if (mainContent) mainContent.style.display = 'none';
+    }
     
     onAuthStateChanged(auth, (user) => {
         console.log('Auth guard state changed. User:', user ? user.email : 'not logged in');
         
         const authCheckOverlay = document.getElementById('authCheckOverlay');
-        const mainContent = document.getElementById('mainContent');
+        const mainContent = document.querySelector('.main-wrapper');
         
         if (user) {
             // User is logged in

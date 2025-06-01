@@ -47,74 +47,51 @@
         </div>
     </div>
 
-    <!-- Main Content - Only visible when authenticated -->
-    <div id="mainContent" style="display: none;">
-        <!-- Logo Background -->
-        <div class="logo-background">
-            <div class="floating-logo">
-                <div class="logo-container">
-                    <canvas id="bgMatrixCanvas1" class="matrix-logo-bg"></canvas>
-                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
-                </div>
-            </div>
-            <div class="floating-logo">
-                <div class="logo-container">
-                    <canvas id="bgMatrixCanvas2" class="matrix-logo-bg"></canvas>
-                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
-                </div>
-            </div>
-            <div class="floating-logo">
-                <div class="logo-container">
-                    <canvas id="bgMatrixCanvas3" class="matrix-logo-bg"></canvas>
-                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
-                </div>
-            </div>
-            <div class="floating-logo">
-                <div class="logo-container">
-                    <canvas id="bgMatrixCanvas4" class="matrix-logo-bg"></canvas>
-                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
-                </div>
-            </div>
-            <div class="floating-logo">
-                <div class="logo-container">
-                    <canvas id="bgMatrixCanvas5" class="matrix-logo-bg"></canvas>
-                    <h2 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h2>
-                </div>
-            </div>
-        </div>
+    <!-- Particles Background -->
+    <div id="particles-js" class="particles-container"></div>
 
-        <!-- Particles Background -->
-        <div id="particles-js" class="particles-container"></div>
+    <!-- Cyberpunk Grid Background -->
+    <div class="bg-grid"></div>
 
-        <!-- Cyberpunk Grid Background -->
-        <div class="bg-grid"></div>
+    <!-- Background Slideshow -->
+    <div class="bg-slideshow">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
 
-        <!-- Header & Navigation -->
-        <header>
-            <nav>
-                <div class="logo">
-                    <h1><a href="#">CtrlZone</a></h1>
-                </div>
-                <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <ul class="nav-links">
-                    <div class="nav-close" id="navClose">
-                        <i class="fas fa-times"></i>
-                    </div>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="pages/games.html">Games</a></li>
-                    <li><a href="pages/services.html">Services</a></li>
-                    <li><a href="pages/tournaments.html">Tournaments</a></li>
-                    <li><a href="pages/booking.html">Book Now</a></li>
-                    <li><a href="pages/contact.html">Contact</a></li>
-                    <li class="auth-buttons">
-                        <a href="#" id="logoutBtn" class="logout-btn">Logout</a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1 class="cyberpunk glitch-text" data-text="CtrlZone"><a href="index.html">CtrlZone</a></h1>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="pages/games.html">Games</a></li>
+                <li><a href="pages/services.html">Services</a></li>
+                <li><a href="pages/tournaments.html">Tournaments</a></li>
+                <li><a href="pages/booking.html">Book Now</a></li>
+                <li><a href="pages/contact.html">Contact</a></li>
+                <li class="auth-buttons">
+                    <a href="#" id="logoutBtn" class="logout-btn">Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
+    <!-- Main Content -->
+    <div class="main-wrapper">
         <!-- Hero Section -->
         <section id="home" class="hero" data-aos="fade-down" data-aos-duration="1200">
             <div class="hero-content" data-aos="zoom-in" data-aos-delay="300" data-aos-duration="1000">
