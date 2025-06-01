@@ -58,8 +58,7 @@
                     <div class="info-card">
                         <i class="fas fa-map-marker-alt"></i>
                         <h3>Location</h3>
-                        <p>Nairobi, Kenya</p>
-                        <p>[Your Specific Address]</p>
+                        <p>Bahati, Nakuru, Kenya</p>
                     </div>
                     <div class="info-card">
                         <i class="fas fa-clock"></i>
@@ -70,18 +69,25 @@
                     <div class="info-card">
                         <i class="fas fa-phone"></i>
                         <h3>Contact</h3>
-                        <p>Phone: [Your Phone Number]</p>
-                        <p>WhatsApp: [Your WhatsApp]</p>
+                        <p>Phone: +254 713 332 171</p>
+                        <p>WhatsApp: +254 713 332 171</p>
+                        <p>Email: danychege28@gmail.com</p>
                     </div>
                 </div>
 
                 <div class="map-container">
-                    <!-- Replace src with actual Google Maps embed code -->
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255282.35853743783!2d36.70730744863281!3d-1.3028617999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sus!4v1635000000000!5m2!1sen!2sus" 
-                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.753270428428!2d36.0758368!3d-0.2833333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1829f9c5f0d4cd7d%3A0x87f6c4b07f98c51d!2sBahati%2C%20Nakuru!5e0!3m2!1sen!2ske!4v1709835367123!5m2!1sen!2ske"
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
 
-                <form id="contactForm" class="contact-form">
+                <form id="contactForm" class="contact-form" action="mailto:danychege28@gmail.com" method="post" enctype="text/plain">
                     <h2>Send us a Message</h2>
                     <input type="text" name="name" placeholder="Your Name" required>
                     <input type="email" name="email" placeholder="Your Email" required>
@@ -89,6 +95,25 @@
                     <textarea name="message" placeholder="Your Message" required></textarea>
                     <button type="submit">Send Message</button>
                 </form>
+                <script>
+                    document.getElementById('contactForm').addEventListener('submit', function(e) {
+                        const name = this.elements.name.value;
+                        const email = this.elements.email.value;
+                        const phone = this.elements.phone.value;
+                        const message = this.elements.message.value;
+                        
+                        const subject = 'Contact Form Message from ' + name;
+                        const body = 'Name: ' + name + '\n' +
+                                    'Email: ' + email + '\n' +
+                                    'Phone: ' + phone + '\n\n' +
+                                    'Message:\n' + message;
+                        
+                        window.location.href = 'mailto:danychege28@gmail.com?subject=' + 
+                            encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                        
+                        e.preventDefault();
+                    });
+                </script>
             </div>
         </section>
     </main>
