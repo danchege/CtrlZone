@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin Account - CtrlZone</title>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <div class="admin-setup-container">
+        <div class="setup-form">
+            <h1>Create Admin Account</h1>
+            <form id="createAdminForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminKey">Admin Setup Key</label>
+                    <input type="password" id="adminKey" required>
+                </div>
+                <button type="submit" class="action-btn">Create Admin Account</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script type="module">
+        import { createAdminAccount } from '../js/admin-auth.js';
+
+        const form = document.getElementById('createAdminForm');
+        const notification = document.getElementById('notification');
+
+        // Show notification
+        function showNotification(message, isError = false) {
+            notification.textContent = message;
+            notification.className = `notification ${isError ? 'error' : 'success'}`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const adminKey = document.getElementById('adminKey').value;
+
+            // Validate password match
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', true);
+                return;
+            }
+
+            // Validate admin key (replace this with your actual admin key)
+            const validAdminKey = 'your-secure-admin-key';
+            if (adminKey !== validAdminKey) {
+                showNotification('Invalid admin setup key', true);
+                return;
+            }
+
+            try {
+                await createAdminAccount(email, password, username);
+                showNotification('Admin account created successfully!');
+                setTimeout(() => {
+                    window.location.href = '/admin/index.html';
+                }, 1500);
+            } catch (error) {
+                showNotification(error.message, true);
+            }
+        });
+    </script>
+</body>
+</html>

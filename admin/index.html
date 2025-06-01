@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CtrlZone Admin</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>CtrlZone Admin</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-section="dashboard">
+                    <i class="material-icons">dashboard</i>
+                    <span>Dashboard</span>
+                </li>
+                <li data-section="tournaments">
+                    <i class="material-icons">emoji_events</i>
+                    <span>Tournaments</span>
+                </li>
+                <li data-section="events">
+                    <i class="material-icons">event</i>
+                    <span>Events</span>
+                </li>
+                <li data-section="users">
+                    <i class="material-icons">people</i>
+                    <span>Users</span>
+                </li>
+                <li data-section="settings">
+                    <i class="material-icons">settings</i>
+                    <span>Settings</span>
+                </li>
+                <li id="logoutBtn">
+                    <i class="material-icons">logout</i>
+                    <span>Logout</span>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <div class="header-content">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <div class="user-info">
+                        <span id="adminName">Admin</span>
+                        <img id="adminAvatar" src="../images/default-avatar.png" alt="Admin Avatar">
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="material-icons">emoji_events</i>
+                            <div class="stat-info">
+                                <h3>Active Tournaments</h3>
+                                <p id="activeTournaments">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="material-icons">event</i>
+                            <div class="stat-info">
+                                <h3>Upcoming Events</h3>
+                                <p id="upcomingEvents">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="material-icons">people</i>
+                            <div class="stat-info">
+                                <h3>Total Users</h3>
+                                <p id="totalUsers">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tournaments Section -->
+                <section id="tournaments" class="section">
+                    <div class="section-header">
+                        <button id="createTournament" class="primary-btn">
+                            <i class="material-icons">add</i> New Tournament
+                        </button>
+                    </div>
+                    <div id="tournamentsGrid" class="grid"></div>
+                </section>
+
+                <!-- Events Section -->
+                <section id="events" class="section">
+                    <div class="section-header">
+                        <button id="createEvent" class="primary-btn">
+                            <i class="material-icons">add</i> New Event
+                        </button>
+                    </div>
+                    <div id="eventsGrid" class="grid"></div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="users" class="section">
+                    <div id="usersGrid" class="grid"></div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="section">
+                    <div class="settings-form">
+                        <h2>Admin Settings</h2>
+                        <form id="settingsForm">
+                            <div class="form-group">
+                                <label>Site Name</label>
+                                <input type="text" id="siteName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Email</label>
+                                <input type="email" id="contactEmail" required>
+                            </div>
+                            <button type="submit" class="primary-btn">Save Settings</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="createTournamentModal" class="modal"></div>
+    <div id="createEventModal" class="modal"></div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/admin/dashboard.js"></script>
+    <script type="module" src="../js/admin/tournaments.js"></script>
+    <script type="module" src="../js/admin/events.js"></script>
+    <script type="module" src="../js/admin/users.js"></script>
+    <script type="module" src="../js/admin/settings.js"></script>
+    <script type="module" src="../js/auth-guard.js"></script>
+</body>
+</html>
