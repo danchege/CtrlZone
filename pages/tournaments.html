@@ -78,20 +78,12 @@
 
             <div class="tournament-registration">
                 <div class="tournament-grid">
-                <div class="tournament-card" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="tournament-img">
-                        <img src="../images/games/fc 25.jpg" alt="FC 25 Tournament">
+                    <!-- Tournaments will be loaded dynamically -->
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading tournaments...</p>
                     </div>
-                    <h3>FC 25 Championship</h3>
-                    <p>Weekend Warriors League</p>
-                    <div class="tournament-details">
-                        <p><i class="fas fa-calendar"></i> Every Saturday</p>
-                        <p><i class="fas fa-gamepad"></i> Game: FC 25</p>
-                        <p><i class="fas fa-info-circle"></i> Prize pool and entry fee will be announced</p>
-                    </div>
-                    <button class="register-btn" data-tournament="fc25">Register Interest</button>
                 </div>
-            </div>
                 <h2>FC 25 Tournament Registration</h2>
                 <div class="slots-counter" data-aos="fade-up" data-aos-delay="200">
                     <h3>Available Slots: <span id="availableSlots">16</span>/16</h3>
@@ -229,6 +221,8 @@
     <script src="../js/effects.js"></script>
     <!-- Navigation JS -->
     <script src="../js/nav.js"></script>
+    <!-- Tournament JS -->
+    <script type="module" src="../js/tournaments.js"></script>
     <script>
         AOS.init({
             offset: 200,

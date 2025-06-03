@@ -1,14 +1,175 @@
-import { auth, db } from '../firebase-config.js';
-import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-import { 
-    collection, 
-    query, 
-    where, 
-    getDocs, 
-    onSnapshot,
-    orderBy,
-    limit 
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+// Import Firebase modules
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+import { getFirestore, collection, query, where, getDocs, onSnapshot, orderBy, limit, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import { getStorage } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
+
+// Import admin modules
+import { TournamentManager } from './modules/tournaments.js';
+import { BookingManager } from './modules/bookings.js';
+import { GameManager } from './modules/games.js';
+import { MessageManager } from './modules/messages.js';
+import { SettingsManager } from './modules/settings.js';
+import { PresenceManager } from './modules/presence.js';
+import { UserManager } from './modules/users.js';
+
+// Import chart initialization
+import { initializeRevenueChart, initializeGamesChart } from './charts.js';
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDwEeNjQqHUzRXVAAJH6zu--3EDvWdMHBM",
+    authDomain: "ctrlzone-ac391.firebaseapp.com",
+    projectId: "ctrlzone-ac391",
+    storageBucket: "ctrlzone-ac391.firebasestorage.app",
+    messagingSenderId: "74572007141",
+    appId: "1:74572007141:web:95df9ba8767375d30ef60c",
+    measurementId: "G-4JRDEMZVR2"
+};
+
+// Initialize Firebase with unique app name
+const adminApp = initializeApp(firebaseConfig, 'admin-dashboard-app');
+const auth = getAuth(adminApp);
+const db = getFirestore(adminApp);
+const storage = getStorage(adminApp);
+
+// Make Firebase instances available globally
+window.adminApp = adminApp;
+window.adminAuth = auth;
+window.adminDb = db;
+window.adminStorage = storage;
+
+// Make admin module classes available globally
+window.TournamentManager = TournamentManager;
+window.BookingManager = BookingManager;
+window.GameManager = GameManager;
+window.MessageManager = MessageManager;
+window.SettingsManager = SettingsManager;
+window.PresenceManager = PresenceManager;
+window.UserManager = UserManager;
+
+// Initialize admin modules
+export function initializeModules() {
+    try {
+        // Initialize only the modules needed for the current section
+        const currentSection = document.querySelector('.admin-section.active');
+        const sectionId = currentSection ? currentSection.id : 'overviewSection';
+
+        // Always initialize presence manager for online status tracking
+        window.presenceManager = new PresenceManager(adminApp);
+
+        // Initialize modules based on section
+        switch (sectionId) {
+            case 'usersSection':
+                window.userManager = new UserManager(adminApp);
+                break;
+            case 'bookingsSection':
+                window.bookingManager = new BookingManager(adminApp);
+                break;
+            case 'tournamentsSection':
+                window.tournamentManager = new TournamentManager(adminApp);
+                break;
+            case 'gamesSection':
+                window.gameManager = new GameManager(adminApp);
+                break;
+            case 'messagesSection':
+                window.messageManager = new MessageManager(adminApp);
+                break;
+            case 'settingsSection':
+                window.settingsManager = new SettingsManager(adminApp);
+                break;
+            case 'overviewSection':
+                // Initialize charts
+                initializeRevenueChart();
+                initializeGamesChart();
+                break;
+        }
+
+        console.log('Modules initialized for section:', sectionId);
+    } catch (error) {
+        console.error('Error initializing modules:', error);
+    }
+}
+
+// Initialize admin auth
+function initializeAuth() {
+    onAuthStateChanged(window.adminAuth, async (user) => {
+        if (user) {
+            // Check if user is admin
+            const userDoc = await getDoc(doc(window.adminDb, 'users', user.uid));
+            if (userDoc.exists() && userDoc.data().isAdmin) {
+                // Store auth info
+                localStorage.setItem('adminAuth', JSON.stringify({
+                    uid: user.uid,
+                    timestamp: new Date().getTime()
+                }));
+
+                // Show dashboard
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'grid';
+                initializeModules();
+                initializeEventListeners();
+                showSection('overviewSection');
+                setupRealtimeListeners();
+                fetchDashboardStats();
+                hideLoadingScreen();
+                return;
+            }
+        }
+
+        // Not authenticated or not admin
+        localStorage.removeItem('adminAuth');
+        document.getElementById('adminLogin').style.display = 'flex';
+        document.getElementById('dashboard').style.display = 'none';
+        hideLoadingScreen();
+    });
+}
+
+// Handle login form submission
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        startLoadingAnimation();
+        const userCredential = await signInWithEmailAndPassword(window.adminAuth, email, password);
+        const user = userCredential.user;
+
+        // Check if user is admin
+        const userDoc = await getDoc(doc(window.adminDb, 'users', user.uid));
+        if (!userDoc.exists() || !userDoc.data().isAdmin) {
+            throw new Error('Access denied. Admin privileges required.');
+        }
+
+        // Store admin auth state
+        const adminAuth = {
+            uid: user.uid,
+            email: user.email,
+            timestamp: new Date().getTime()
+        };
+        localStorage.setItem('adminAuth', JSON.stringify(adminAuth));
+
+        // Show dashboard
+        document.getElementById('adminLogin').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'grid';
+        initializeModules();
+
+    } catch (error) {
+        console.error('Login error:', error);
+        hideLoadingScreen();
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: error.message
+        });
+    }
+});
+
+// Initialize admin dashboard
+document.addEventListener('DOMContentLoaded', () => {
+    initializeAuth();
+});
 
 // DOM Elements
 const loadingScreen = document.querySelector('.loading-screen');
@@ -23,30 +184,15 @@ const toggleSidebarBtn = document.getElementById('toggleSidebar');
 const logoutBtn = document.getElementById('logoutBtn');
 
 // Initialize Dashboard
-document.addEventListener('DOMContentLoaded', () => {
-    initializeAuth();
-    initializeCharts();
-    initializeEventListeners();
-    startLoadingAnimation();
-});
-
-// Authentication Check
-function initializeAuth() {
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            const userDoc = await getUserData(user.uid);
-            if (userDoc && userDoc.isAdmin) {
-                setupDashboard(user, userDoc);
-            } else {
-                window.location.href = '/'; // Redirect non-admin users
-            }
-        } else {
-            window.location.href = '/login.html';
-        }
-    });
+function startLoadingAnimation() {
+    loadingScreen.classList.add('active');
 }
 
-// Get User Data
+function hideLoadingScreen() {
+    loadingScreen.classList.remove('active');
+}
+
+// Authentication Check
 async function getUserData(userId) {
     try {
         const userRef = collection(db, 'users');
@@ -113,89 +259,7 @@ async function fetchDashboardStats() {
     }
 }
 
-// Initialize Charts
-function initializeCharts() {
-    initializeRevenueChart();
-    initializeGamesChart();
-}
 
-// Revenue Chart
-function initializeRevenueChart() {
-    const ctx = document.getElementById('revenueChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: getLastSevenDays(),
-            datasets: [{
-                label: 'Revenue',
-                data: [0, 0, 0, 0, 0, 0, 0], // Will be updated with real data
-                borderColor: '#00ff9d',
-                tension: 0.4,
-                fill: true,
-                backgroundColor: 'rgba(0, 255, 157, 0.1)'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)'
-                    },
-                    ticks: {
-                        color: '#e1e1e1'
-                    }
-                },
-                x: {
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)'
-                    },
-                    ticks: {
-                        color: '#e1e1e1'
-                    }
-                }
-            }
-        }
-    });
-}
-
-// Games Chart
-function initializeGamesChart() {
-    const ctx = document.getElementById('gamesChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Game 1', 'Game 2', 'Game 3', 'Game 4', 'Game 5'],
-            datasets: [{
-                data: [0, 0, 0, 0, 0], // Will be updated with real data
-                backgroundColor: [
-                    '#00ff9d',
-                    '#00c3ff',
-                    '#ff00ff',
-                    '#ffa502',
-                    '#ff4757'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'right',
-                    labels: {
-                        color: '#e1e1e1'
-                    }
-                }
-            }
-        }
-    });
-}
 
 // Setup Realtime Listeners
 function setupRealtimeListeners() {
@@ -210,6 +274,8 @@ function setupRealtimeListeners() {
         snapshot.docChanges().forEach((change) => {
             if (change.type === 'added') {
                 addActivityItem('booking', change.doc.data());
+                // Refresh stats when new booking is added
+                fetchDashboardStats();
             }
         });
     });
@@ -225,8 +291,20 @@ function setupRealtimeListeners() {
         snapshot.docChanges().forEach((change) => {
             if (change.type === 'added') {
                 addActivityItem('tournament', change.doc.data());
+                // Refresh stats when new tournament is added
+                fetchDashboardStats();
             }
         });
+    });
+
+    // Listen for user presence changes
+    const usersQuery = query(
+        collection(db, 'users'),
+        where('lastSeen', '>=', new Date(Date.now() - 5 * 60 * 1000))
+    );
+
+    onSnapshot(usersQuery, (snapshot) => {
+        document.getElementById('activeSessions').textContent = snapshot.size;
     });
 }
 
@@ -281,52 +359,125 @@ function formatTimestamp(timestamp) {
 // Event Listeners
 function initializeEventListeners() {
     // Toggle Sidebar
-    toggleSidebarBtn.addEventListener('click', () => {
-        document.querySelector('.admin-nav').classList.toggle('active');
-    });
+    const menuToggle = document.getElementById('menuToggle');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            document.querySelector('.admin-nav').classList.toggle('active');
+        });
+    }
 
     // Navigation
-    document.querySelectorAll('.admin-nav-links a').forEach(link => {
+    document.querySelectorAll('.nav-links .nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const section = e.target.closest('a').dataset.section;
+            const section = link.dataset.section;
             showSection(section);
         });
     });
 
     // Logout
-    logoutBtn.addEventListener('click', async () => {
-        try {
-            await auth.signOut();
-            window.location.href = '/login.html';
-        } catch (error) {
-            console.error('Error signing out:', error);
-        }
-    });
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await window.adminAuth.signOut();
+                localStorage.removeItem('adminAuth');
+                document.getElementById('adminLogin').style.display = 'flex';
+                document.getElementById('dashboard').style.display = 'none';
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        });
+    }
 }
 
 // Show Section
 function showSection(sectionId) {
-    document.querySelectorAll('.admin-section').forEach(section => {
-        section.classList.remove('active');
-    });
-    document.getElementById(sectionId).classList.add('active');
+    try {
+        // Hide all sections
+        document.querySelectorAll('.admin-section').forEach(section => {
+            section.classList.remove('active');
+            section.style.display = 'none';
+        });
 
-    document.querySelectorAll('.admin-nav-links a').forEach(link => {
-        link.classList.remove('active');
-    });
-    document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+        // Show selected section
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.classList.add('active');
+            targetSection.style.display = 'block';
+        }
+
+        // Update navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        document.querySelector(`.nav-link[data-section="${sectionId}"]`).classList.add('active');
+
+        // Initialize modules for this section
+        switch (sectionId) {
+            case 'usersSection':
+                if (!window.userManager) {
+                    console.log('Initializing UserManager...');
+                    window.userManager = new UserManager(adminApp);
+                }
+                window.userManager.refreshUserList();
+                break;
+
+            case 'bookingsSection':
+                if (!window.bookingManager) {
+                    console.log('Initializing BookingManager...');
+                    window.bookingManager = new BookingManager(adminApp);
+                }
+                window.bookingManager.refreshBookings();
+                break;
+
+            case 'tournamentsSection':
+                if (!window.tournamentManager) {
+                    console.log('Initializing TournamentManager...');
+                    window.tournamentManager = new TournamentManager(adminApp);
+                }
+                window.tournamentManager.refreshTournaments();
+                break;
+
+            case 'gamesSection':
+                if (!window.gameManager) {
+                    console.log('Initializing GameManager...');
+                    window.gameManager = new GameManager(adminApp);
+                }
+                window.gameManager.refreshGames();
+                break;
+
+            case 'messagesSection':
+                if (!window.messageManager) {
+                    console.log('Initializing MessageManager...');
+                    window.messageManager = new MessageManager(adminApp);
+                }
+                window.messageManager.refreshMessages();
+                break;
+
+            case 'settingsSection':
+                if (!window.settingsManager) {
+                    console.log('Initializing SettingsManager...');
+                    window.settingsManager = new SettingsManager(adminApp);
+                }
+                window.settingsManager.loadSettings();
+                break;
+
+            case 'overviewSection':
+                // Initialize charts if not already done
+                if (!window.revenueChart || !window.gamesChart) {
+                    initializeRevenueChart();
+                    initializeGamesChart();
+                }
+                fetchDashboardStats();
+                break;
+        }
+    } catch (error) {
+        console.error('Error showing section:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to load section. Please try again.'
+        });
+    }
 }
-
-// Loading Animation
-function startLoadingAnimation() {
-    const loadingBar = document.querySelector('.loading-bar');
-    loadingBar.style.width = '100%';
-}
-
-function hideLoadingScreen() {
-    loadingScreen.style.opacity = '0';
-    setTimeout(() => {
-        loadingScreen.style.display = 'none';
-    }, 500);
-} 

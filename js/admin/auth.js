@@ -1,6 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import { initializeModules } from './dashboard.js';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -17,6 +18,26 @@ const firebaseConfig = {
 const adminApp = initializeApp(firebaseConfig, 'admin-dashboard-app');
 const auth = getAuth(adminApp);
 const db = getFirestore(adminApp);
+
+// Set admin claim if user is admin
+async function setAdminClaim(user) {
+    if (!user) return;
+    try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists() && userDoc.data().isAdmin) {
+            await user.getIdTokenResult(true); // Force refresh token
+            const token = await user.getIdToken(true); // Get fresh token
+            // Store the admin claim locally
+            localStorage.setItem('adminClaim', JSON.stringify({ 
+                token,
+                admin: true,
+                timestamp: new Date().getTime()
+            }));
+        }
+    } catch (error) {
+        console.error('Error setting admin claim:', error);
+    }
+}
 
 // Check admin status
 export async function checkAdminStatus(user) {
@@ -55,6 +76,7 @@ export function initAdminAuth() {
         if (!user || user.uid !== adminAuth.uid) {
             // No matching user is signed in
             localStorage.removeItem('adminAuth');
+            localStorage.removeItem('adminClaim');
             window.location.href = '/admin/secure-login.html';
             return;
         }
@@ -63,10 +85,14 @@ export function initAdminAuth() {
         const isAdmin = await checkAdminStatus(user);
         if (!isAdmin) {
             localStorage.removeItem('adminAuth');
+            localStorage.removeItem('adminClaim');
             await auth.signOut();
             window.location.href = '/admin/secure-login.html';
             return;
         }
+
+        // Set admin claim
+        await setAdminClaim(user);
 
         // Update timestamp to keep session alive
         adminAuth.timestamp = now;
@@ -77,6 +103,9 @@ export function initAdminAuth() {
         if (header) {
             header.textContent = `Welcome, ${user.email}`;
         }
+
+        // Initialize modules after admin status is confirmed
+        initializeModules();
     });
 }
 
