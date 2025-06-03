@@ -19,6 +19,12 @@ googleProvider.setCustomParameters({
 
 // Authentication state observer
 export function initAuth() {
+    // Skip auth check if flag is set
+    if (window.skipAuthCheck) {
+        console.log('Skipping auth check for admin setup');
+        return;
+    }
+
     onAuthStateChanged(auth, (user) => {
         if (user) {
             // User is signed in
@@ -33,7 +39,55 @@ export function initAuth() {
 }
 
 // Initialize auth when DOM is loaded
-document.addEventListener('DOMContentLoaded', initAuth);
+document.addEventListener('DOMContentLoaded', () => {
+    initAuth();
+
+    // Secret admin access through logo clicks
+    const logoText = document.getElementById('logoText');
+    let clickCount = 0;
+    let lastClickTime = 0;
+
+    if (logoText) {
+        logoText.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentTime = new Date().getTime();
+
+            // Reset click count if more than 2 seconds between clicks
+            if (currentTime - lastClickTime > 2000) {
+                clickCount = 0;
+            }
+
+            clickCount++;
+            lastClickTime = currentTime;
+
+            // Show admin access form after 3 rapid clicks
+            if (clickCount === 3) {
+                const adminAccess = document.getElementById('adminAccess');
+                if (adminAccess) {
+                    adminAccess.style.display = 'block';
+                    clickCount = 0;
+                }
+            }
+        });
+    }
+
+    // Handle admin access form
+    const adminAccessForm = document.getElementById('adminAccessForm');
+    if (adminAccessForm) {
+        adminAccessForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const adminKey = document.getElementById('adminKey').value;
+
+            // Check admin key
+            if (adminKey === 'CtrlZone2025@Admin') {
+                window.location.href = 'admin/secure-login.html';
+            } else {
+                // Wrong key - hide the form
+                document.getElementById('adminAccess').style.display = 'none';
+            }
+        });
+    }
+});
 
 // Register new user
 export async function registerUser(email, password, username) {

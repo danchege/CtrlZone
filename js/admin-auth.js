@@ -49,7 +49,7 @@ export async function createAdminAccount(email, password, username) {
         // Create user account
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        
+
         // Set up admin profile in Firestore
         await setDoc(doc(db, 'users', user.uid), {
             username: username,

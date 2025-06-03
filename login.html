@@ -34,7 +34,17 @@
     <div class="auth-container">
         <div class="auth-box" data-aos="fade-up">
             <div class="logo">
-                <h1 class="cyberpunk glitch-text" data-text="CtrlZone">CtrlZone</h1>
+                <h1 class="cyberpunk glitch-text" data-text="CtrlZone" id="logoText">CtrlZone</h1>
+            </div>
+            <div id="adminAccess" style="display: none; margin-top: 20px;">
+                <form id="adminAccessForm" class="auth-form">
+                    <div class="form-group">
+                        <input type="password" id="adminKey" placeholder="Admin Access Key" required>
+                    </div>
+                    <button type="submit" class="auth-submit">
+                        <span class="btn-text">Access Admin</span>
+                    </button>
+                </form>
             </div>
             <h2>Login to Continue</h2>
             <form id="loginForm" class="auth-form">
@@ -63,6 +73,19 @@
             </div>
             <div class="auth-links">
                 <p>Don't have an account? <a href="register.html">Register</a></p>
+                <p style="margin-top: 20px;">
+                    <a href="admin/portal.html" class="admin-btn" style="
+                        display: inline-block;
+                        padding: 8px 15px;
+                        background-color: #2d3436;
+                        color: #00ff9d;
+                        text-decoration: none;
+                        border-radius: 4px;
+                        border: 1px solid #00ff9d;
+                        font-size: 14px;
+                        transition: all 0.3s ease;
+                    ">Admin Portal</a>
+                </p>
             </div>
         </div>
     </div>

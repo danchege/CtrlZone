@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - CtrlZone</title>
+    <title>Secure Admin Access</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -16,7 +16,7 @@
             justify-content: center;
             align-items: center;
         }
-        .admin-login-container {
+        .login-container {
             background-color: #2a2a2a;
             padding: 30px;
             border-radius: 8px;
@@ -28,6 +28,7 @@
             text-align: center;
             color: #00ff9d;
             margin-bottom: 30px;
+            font-size: 24px;
         }
         .form-group {
             margin-bottom: 20px;
@@ -80,43 +81,27 @@
     </style>
 </head>
 <body>
-    <div class="admin-login-container">
-        <div class="login-form">
-            <h1>Admin Login</h1>
-            <form id="adminLoginForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit" class="action-btn">Login</button>
-            </form>
-        </div>
+    <div class="login-container">
+        <h1>Secure Admin Access</h1>
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit">Access Dashboard</button>
+        </form>
     </div>
 
     <div id="notification" class="notification"></div>
 
-    <script type="module" src="../js/admin-guard.js"></script>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
         import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-
-        const form = document.getElementById('adminLoginForm');
-        const notification = document.getElementById('notification');
-
-        // Show notification
-        function showNotification(message, isError = false) {
-            notification.textContent = message;
-            notification.className = `notification ${isError ? 'error' : 'success'}`;
-            notification.style.display = 'block';
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
 
         // Firebase configuration
         const firebaseConfig = {
@@ -129,52 +114,53 @@
             measurementId: "G-4JRDEMZVR2"
         };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        // Initialize Firebase (with a unique name to avoid conflicts)
+        const adminApp = initializeApp(firebaseConfig, 'admin-app');
+        const auth = getAuth(adminApp);
+        const db = getFirestore(adminApp);
 
-        // Handle form submission
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${isError ? 'error' : 'success'}`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+
+        const form = document.getElementById('adminLoginForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            console.log('Admin login attempt...');
-
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             try {
-                // Sign in with email and password
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-                console.log('User authenticated:', user.email);
 
                 // Check if user is admin
                 const userDoc = await getDoc(doc(db, 'users', user.uid));
                 if (userDoc.exists() && userDoc.data().isAdmin) {
-                    console.log('Admin status confirmed');
-                    showNotification('Login successful! Redirecting to dashboard...');
+                    showNotification('Login successful! Redirecting...');
                     setTimeout(() => {
+                        // Store admin auth state
+                        localStorage.setItem('adminAuth', JSON.stringify({
+                            isAdmin: true,
+                            uid: user.uid,
+                            email: user.email,
+                            timestamp: new Date().getTime()
+                        }));
                         window.location.href = '../pages/admin/dashboard.html';
                     }, 1500);
                 } else {
-                    console.log('Not an admin user');
-                    // Sign out the non-admin user
                     await auth.signOut();
                     showNotification('Access denied. Admin privileges required.', true);
                 }
             } catch (error) {
                 console.error('Login error:', error);
                 showNotification(error.message || 'Login failed', true);
-            }
-
-            try {
-                await loginAdmin(email, password);
-                showNotification('Login successful!');
-                setTimeout(() => {
-                    window.location.href = '/admin/index.html';
-                }, 1500);
-            } catch (error) {
-                showNotification(error.message, true);
             }
         });
     </script>
